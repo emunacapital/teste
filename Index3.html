@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Emuná Boutique M&A</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+    :root {
+      --blue: #003366;
+      --white: #ffffff;
+    }
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      color: var(--blue);
+      background-color: var(--white);
+      line-height: 1.6;
+    }
+    a {
+      color: var(--blue);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    a:hover,
+    a:focus {
+      color: #00509e;
+    }
+    header {
+      background-color: var(--blue);
+      color: var(--white);
+      padding: 0.5rem 2rem 0.5rem 0.5rem;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      height: 100px;
+      overflow: hidden;
+    }
+    header .logo {
+      display: flex;
+      align-items: center;
+    }
+    header .logo img {
+      height: 200px;
+      display: block;
+      margin-left: 1rem;
+    }
+    nav {
+      margin-left: auto;
+      width: 50%;
+      display: flex;
+      justify-content: flex-end;
+    }
+    nav ul {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      gap: 2rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    nav ul li {
+      font-weight: 700;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+    nav ul li a {
+      color: var(--white);
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+    main {
+      max-width: 900px;
+      margin: 3rem auto;
+      padding: 0 1rem;
+    }
+    section {
+      margin-bottom: 5rem;
+    }
+    h1, h2, h3 {
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+    h1 {
+      font-size: 2.5rem;
+      color: var(--blue);
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      border-bottom: 3px solid var(--blue);
+      padding-bottom: 0.3rem;
+      max-width: max-content;
+    }
+    p {
+      font-size: 1.125rem;
+      color: var(--blue);
+      max-width: 720px;
+      margin: 0 auto 1.25rem auto;
+      text-align: center;
+    }
+    .services-list {
+      max-width: 720px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 2rem;
+    }
+    .service-item {
+      background-color: #f1f5fb;
+      border-radius: 10px;
+      padding: 1.5rem;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+      transition: box-shadow 0.3s ease;
+      text-align: left;
+      color: var(--blue);
+    }
+    .service-item:hover {
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+    .service-item h3 {
+      margin-top: 0;
+      margin-bottom: 0.75rem;
+      color: var(--blue);
+    }
+    footer {
+      background-color: var(--blue);
+      color: var(--white);
+      text-align: center;
+      padding: 1.5rem 1rem;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+    }
+    .contact-form {
+      max-width: 480px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .contact-form label {
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      font-size: 1rem;
+      display: block;
+      color: var(--blue);
+    }
+    .contact-form input,
+    .contact-form textarea {
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      border: 2px solid var(--blue);
+      border-radius: 8px;
+      resize: vertical;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .contact-form button {
+      background-color: var(--blue);
+      color: var(--white);
+      border: none;
+      padding: 0.75rem;
+      font-weight: 700;
+      font-size: 1.1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      letter-spacing: 1.5px;
+    }
+    .contact-form button:hover,
+    .contact-form button:focus {
+      background-color: #00264d;
+    }
+    @media (max-width: 600px) {
+      nav ul {
+        gap: 1rem;
+      }
+      h1 {
+        font-size: 2rem;
+      }
+      h2 {
+        font-size: 1.4rem;
+      }
+    }
+    #home > h1,
+    #about > h2,
+    #services > h2,
+    #contact > h2 {
+      scroll-margin-top: 60px;
+      margin-top: 0;
+    }
+    #about > h2 {
+      scroll-margin-top: 0px;
+      margin-top: 0;
+    }
+    #services > h2,
+    #contact > h2 {
+      scroll-margin-top: 60px;
+      margin-top: 0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo" aria-label="Emuná logo">
+      <a href="#">
+        <img src="logo.png" alt="Emuná Boutique M&A">
+      </a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="Index3.html" tabindex="0">Home</a></li>
+        <li><a href="#about" tabindex="0">Sobre Nós</a></li>
+        <li><a href="#services" tabindex="0">Serviços</a></li>
+        <li><a href="#contact" tabindex="0">Contato</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home" tabindex="0">
+      <h1>Transformando o Futuro das Empresas</h1>
+      <p>Na Emuná, oferecemos soluções personalizadas em pré M&A, consultoria de growth, análise financeira e valuation.</p>
+    </section>
+
+    <section id="about" tabindex="0">
+      <h2>Sobre Nós</h2>
+      <p>A Emuná não é uma boutique convencional. Nós nos especializamos em preparar e conscientizar empresas para o processo de M&A, garantindo que cada cliente esteja pronto para os desafios e oportunidades que surgem. Nossa equipe de especialistas trabalha lado a lado com você, oferecendo insights valiosos e estratégias personalizadas.</p>
+    </section>
+
+    <section id="services" tabindex="0">
+      <h2>Nossos Serviços</h2>
+      <div class="services-list" role="list">
+        <article class="service-item" role="listitem">
+          <h3>Pré M&A</h3>
+          <p>Preparação estratégica para o processo de M&A, garantindo que sua empresa esteja pronta para a transição.</p>
+        </article>
+        <article class="service-item" role="listitem">
+          <h3>Consultoria de Growth</h3>
+          <p>Ajudamos a identificar oportunidades de crescimento e a implementar estratégias eficazes para maximizar seu potencial.</p>
+        </article>
+        <article class="service-item" role="listitem">
+          <h3>Análise Financeira e Valuation</h3>
+          <p>Realizamos análises detalhadas para determinar o valor real da sua empresa e suas perspectivas de crescimento.</p>
+        </article>
+        <article class="service-item" role="listitem">
+          <h3>Preparação e Conscientização M&A</h3>
+          <p>Capacitamos sua equipe e stakeholders para entender o processo de M&A e suas implicações.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact" tabindex="0">
+      <h2>Contato</h2>
+      <p>Entre em contato conosco para saber como podemos ajudar sua empresa a alcançar novos patamares. Estamos prontos para ouvir suas necessidades e oferecer soluções personalizadas.</p>
+      <form class="contact-form" onsubmit="event.preventDefault(); alert('Obrigado pelo contato! Em breve responderemos.'); this.reset();">
+        <label for="name">Nome</label>
+        <input type="text" id="name" name="name" required placeholder="Seu nome" />
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required placeholder="seu@email.com" />
+
+        <label for="message">Mensagem</label>
+        <textarea id="message" name="message" rows="4" required placeholder="Escreva sua mensagem"></textarea>
+
+        <button type="submit" aria-label="Enviar mensagem">Enviar</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2024 Emuná Boutique M&A. Todos os direitos reservados.
+  </footer>
+  <script>
+    // Sobre Nós
+    document.querySelector('a[href="#about"]').addEventListener('click', function(e) {
+      e.preventDefault();
+      const target = document.getElementById('about');
+      const headerHeight = 120;
+      const y = target.getBoundingClientRect().top + window.pageYOffset - headerHeight + 1;
+      window.scrollTo({top: y, behavior: 'smooth'});
+    });
+    // Serviços
+    document.querySelector('a[href="#services"]').addEventListener('click', function(e) {
+      e.preventDefault();
+      const target = document.getElementById('services');
+      const headerHeight = 120; // sobe um pouco mais
+      const y = target.getBoundingClientRect().top + window.pageYOffset - headerHeight + 1;
+      window.scrollTo({top: y, behavior: 'smooth'});
+    });
+    // Contato
+    document.querySelector('a[href="#contact"]').addEventListener('click', function(e) {
+      e.preventDefault();
+      const target = document.getElementById('contact');
+      const headerHeight = 120; // sobe ainda mais
+      const y = target.getBoundingClientRect().top + window.pageYOffset - headerHeight + 1;
+      window.scrollTo({top: y, behavior: 'smooth'});
+    });
+  </script>
+</body>
+</html>
