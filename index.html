@@ -178,9 +178,31 @@
       background-color: #00264d;
     }
     @media (max-width: 600px) {
-      nav ul {
-        gap: 1rem;
+      /* Ajustes para mobile */
+      header {
+        flex-direction: column; /* Empilha logo e nav verticalmente */
+        align-items: center; /* Centraliza os itens empilhados */
+        height: auto; /* Altura automática para acomodar o conteúdo */
+        padding: 1rem 1rem; /* Ajusta o padding */
       }
+      header .logo img {
+        height: 150px; /* Ajusta o tamanho do logo no mobile */
+        margin: 0 0 1rem 0; /* Adiciona margem abaixo do logo */
+      }
+      nav {
+        margin-left: 0; /* Remove margem esquerda automática */
+        width: 100%; /* Ocupa toda a largura disponível */
+        justify-content: center; /* Centraliza os itens da navegação */
+      }
+      nav ul {
+        gap: 1rem; /* Mantém o espaço entre os itens da lista */
+        justify-content: center; /* Centraliza os itens da lista */
+      }
+
+      nav ul li {
+        font-size: 1rem; /* Reduz o tamanho da fonte dos itens da navegação */
+      }
+
       h1 {
         font-size: 2rem;
       }
@@ -215,7 +237,7 @@
     </div>
     <nav>
       <ul>
-        <li><a href="index.html" tabindex="0">Home</a></li>
+        <li><a href="#home" tabindex="0">Home</a></li>
         <li><a href="#about" tabindex="0">Sobre Nós</a></li>
         <li><a href="#services" tabindex="0">Serviços</a></li>
         <li><a href="#contact" tabindex="0">Contato</a></li>
@@ -301,6 +323,13 @@
       const headerHeight = 120; // sobe ainda mais
       const y = target.getBoundingClientRect().top + window.pageYOffset - headerHeight + 1;
       window.scrollTo({top: y, behavior: 'smooth'});
+    });
+    // Home - Adicionado para scroll suave e rolagem para o topo com offset
+    document.querySelector('a[href="#home"]').addEventListener('click', function(e) {
+      e.preventDefault(); // Previne a ação padrão do link
+      // Rolagem para o topo da página com offset de 80px
+      const y = 0; // Posição Y para onde rolar (80px do topo)
+      window.scrollTo({ top: y, behavior: 'smooth' }); // Scroll suave
     });
   </script>
 </body>
