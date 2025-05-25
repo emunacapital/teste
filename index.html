@@ -273,7 +273,7 @@
         </article>
         <article class="service-item" role="listitem">
           <h3>Guidance & Estruturação</h3>
-          <p>Orientação para contratar bancos de investimento ou estruturar internamente antes do M&A</p>
+          <p>Orientação para contratar bancos de investimento ou estruturfar internamente antes do M&A</p>
         </article>
       </div>
     </section>
@@ -281,7 +281,7 @@
     <section id="contact" tabindex="0">
       <h2>Contato</h2>
       <p>Fale com a Emuná e descubra como podemos elevar sua empresa a novos patamares. Estamos prontos para entender seus desafios e entregar soluções estratégicas personalizadas.</p>
-      <form class="contact-form" action="https://formspree.io/f/xldbygyl" method="POST" onsubmit="event.preventDefault(); fetch(this.action, {method: this.method, body: new FormData(this)}).then(response => {if(response.ok) {alert('Obrigado pelo contato! Em breve responderemos.'); this.reset();} else {alert('Ocorreu um erro ao enviar o formulário. Por favor, tente novamente.');}}).catch(error => {alert('Ocorreu um erro ao enviar o formulário. Por favor, tente novamente.');});">
+      <form class="contact-form" action="https://formspree.io/f/xldbygyl" method="POST" onsubmit="event.preventDefault(); fetch(this.action, {method: this.method, body: new FormData(this)}).then(() => {alert('Obrigado pelo contato! Em breve responderemos.'); this.reset();});">
         <label for="name">Nome</label>
         <input type="text" id="name" name="name" required placeholder="Seu nome" />
 
