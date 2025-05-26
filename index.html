@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Emuná Boutique M&A</title>
+  <title>Emuna Capital</title>
+  <link rel="icon" type="image/png" href="icon.png">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
     :root {
@@ -247,41 +248,41 @@
 
   <main>
     <section id="home" tabindex="0">
-      <h1>Transformando o Futuro das Empresas</h1>
-      <p>Na Emuná, oferecemos soluções personalizadas em pré M&A, consultoria de growth, análise financeira e valuation.</p>
+      <h1>Não somos uma boutique de M&A</h1>
+      <p>Diferente das boutiques de M&A, que impõem contratos de exclusividade e altas taxas, a Emuná Capital oferece assessoria pré-M&A para empresas que ainda não sabem se é o momento de um evento de liquidez ou captação de investidores. Realizamos uma análise completa de valuation e mercado. Após nossos serviços, sua empresa saberá se deve seguir com M&A ou tomar as ações necessárias para se estruturar antes de avançar.</p>
     </section>
 
     <section id="about" tabindex="0">
       <h2>Sobre Nós</h2>
-      <p>A Emuná não é uma boutique convencional. Nós nos especializamos em preparar e conscientizar empresas para o processo de M&A, garantindo que cada cliente esteja pronto para os desafios e oportunidades que surgem. Nossa equipe de especialistas trabalha lado a lado com você, oferecendo insights valiosos e estratégias personalizadas.</p>
+      <p>A Emuná Capital é formada por sócios com ampla experiência em M&A em setores como tecnologia, saúde, energia e consumo. Nosso time de especialistas em análise financeira e consultoria estratégica oferece soluções personalizadas para preparar sua empresa para decisões de M&A ou captação de investimentos.</p>
     </section>
 
     <section id="services" tabindex="0">
       <h2>Nossos Serviços</h2>
       <div class="services-list" role="list">
         <article class="service-item" role="listitem">
-          <h3>Pré M&A</h3>
-          <p>Preparação estratégica para o processo de M&A, garantindo que sua empresa esteja pronta para a transição.</p>
+          <h3>Análise da Companhia</h3>
+          <p>Análise estratégica do modelo de negócios, posicionamento de mercado e principais drivers</p>
         </article>
         <article class="service-item" role="listitem">
-          <h3>Consultoria de Growth</h3>
-          <p>Ajudamos a identificar oportunidades de crescimento e a implementar estratégias eficazes para maximizar seu potencial.</p>
+          <h3>Finanças & Valuation</h3>
+          <p>Modelagem financeira, valuation, avaliação de KPIs e elaboração de memorandos detalhados</p>
         </article>
         <article class="service-item" role="listitem">
-          <h3>Análise Financeira e Valuation</h3>
-          <p>Realizamos análises detalhadas para determinar o valor real da sua empresa e suas perspectivas de crescimento.</p>
+          <h3>Análise Setorial</h3>
+          <p>Estudo detalhado do mercado em que a companhia atua e análise de concorrência</p>
         </article>
         <article class="service-item" role="listitem">
-          <h3>Preparação e Conscientização M&A</h3>
-          <p>Capacitamos sua equipe e stakeholders para entender o processo de M&A e suas implicações.</p>
+          <h3>Guidance & Estruturação</h3>
+          <p>Orientação para contratar bancos de investimento ou estruturfar internamente antes do M&A</p>
         </article>
       </div>
     </section>
 
     <section id="contact" tabindex="0">
       <h2>Contato</h2>
-      <p>Entre em contato conosco para saber como podemos ajudar sua empresa a alcançar novos patamares. Estamos prontos para ouvir suas necessidades e oferecer soluções personalizadas.</p>
-      <form class="contact-form" onsubmit="event.preventDefault(); alert('Obrigado pelo contato! Em breve responderemos.'); this.reset();">
+      <p>Fale com a Emuná e descubra como podemos elevar sua empresa a novos patamares. Estamos prontos para entender seus desafios e entregar soluções estratégicas personalizadas.</p>
+      <form class="contact-form" action="https://formspree.io/f/xldbygyl" method="POST">
         <label for="name">Nome</label>
         <input type="text" id="name" name="name" required placeholder="Seu nome" />
 
@@ -297,7 +298,7 @@
   </main>
 
   <footer>
-    &copy; 2024 Emuná Boutique M&A. Todos os direitos reservados.
+    &copy; 2025 Emuná Capital. Todos os direitos reservados.
   </footer>
   <script>
     // Sobre Nós
@@ -331,6 +332,43 @@
       const y = 0; // Posição Y para onde rolar (80px do topo)
       window.scrollTo({ top: y, behavior: 'smooth' }); // Scroll suave
     });
+
+    const contactForm = document.querySelector('.contact-form');
+
+    if (contactForm) {
+      contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const form = e.target;
+        const formData = new FormData(form);
+
+        try {
+          const response = await fetch(form.action, {
+            method: form.method,
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+          });
+
+          if (response.ok) {
+            alert('Obrigado pelo contato! Em breve responderemos.');
+            form.reset();
+          } else {
+            // Attempt to read response body for more specific error from Formspree
+            const data = await response.json();
+            if (data.error) {
+              alert('Ocorreu um erro ao enviar o formulário: ' + data.error);
+            } else {
+              alert('Ocorreu um erro ao enviar o formulário. Por favor, tente novamente.');
+            }
+          }
+        } catch (error) {
+          alert('Ocorreu um erro ao enviar o formulário. Por favor, tente novamente.');
+          console.error('Form submission error:', error);
+        }
+      });
+    }
   </script>
 </body>
 </html>
