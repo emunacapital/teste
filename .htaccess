@@ -1,0 +1,14 @@
+RewriteEngine On
+RewriteBase /
+
+# Redirect /atuacao to /atuacao.html
+RewriteRule ^atuacao/?$ atuacao.html [L]
+
+# Redirect /sobre to /sobre.html
+RewriteRule ^sobre/?$ sobre.html [L]
+
+# Redirect /equipe to /equipe.html
+RewriteRule ^equipe/?$ equipe.html [L]
+
+# Redirect /index4 to /index4.html
+RewriteRule ^index4/?$ index4.html [L] 

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nossa Atuação - Emuná Capital</title>
+  <meta name="description" content="Conheça a atuação da Emuná Capital em assessoria pré-M&A, valuation e consultoria estratégica." />
+  <meta name="keywords" content="Emuná Capital, atuação, assessoria, pré-M&A, consultoria, valuation" />
+  <meta name="author" content="Emuná Capital" />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="apple-touch-icon" href="favicon.ico">
+  <meta property="og:title" content="Nossa Atuação - Emuná Capital" />
+  <meta property="og:description" content="Conheça a atuação da Emuná Capital em assessoria pré-M&A, valuation e consultoria estratégica." />
+  <meta property="og:image" content="https://emunacapital.com.br/icon.png" />
+  <meta property="og:url" content="https://emunacapital.com.br/atuacao.html" />
+  <meta property="og:type" content="website" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Montserrat', sans-serif; }
+    .gradient-header { background: linear-gradient(180deg, #003366 0%, #1a3185 100%); }
+    .card-shadow { box-shadow: 0 4px 24px 0 rgba(32,70,179,0.10); }
+    .action-card, .stat-card {
+      transition: transform 0.2s cubic-bezier(.4,2,.6,1), box-shadow 0.2s;
+    }
+    .action-card:hover, .stat-card:hover {
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: 0 8px 32px 0 rgba(0,51,102,0.18);
+      z-index: 2;
+    }
+  </style>
+</head>
+<body class="bg-white text-[#003366]">
+  <!-- Header -->
+  <header class="w-full bg-white border-b border-gray-100 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-3">
+      <div class="flex items-center space-x-3">
+        <a href="#" onclick="location.reload(); return false;" title="Recarregar página">
+          <img src="emuna.png" alt="Emuná Capital" class="h-12 w-auto cursor-pointer" onerror="this.onerror=null;this.src='logo.png';">
+        </a>
+      </div>
+      <nav class="hidden md:flex space-x-8 text-lg font-medium">
+        <a href="index4.html" class="transition hover:text-[#2046b3] hover:font-bold">Home</a>
+        <a href="sobre.html" class="transition hover:text-[#2046b3] hover:font-bold">Sobre</a>
+        <a href="equipe.html" class="transition hover:text-[#2046b3] hover:font-bold">Equipe</a>
+        <a href="atuacao.html" class="border-b-2 border-[#003366] pb-1 transition hover:text-[#2046b3] hover:font-bold">Nossa Atuação</a>
+        <a href="index4.html#contato" class="transition hover:text-[#2046b3] hover:font-bold">Contato</a>
+      </nav>
+      <a href="index4.html#contato" class="hidden md:inline-block bg-[#003366] text-white px-5 py-2 rounded-lg font-semibold hover:bg-[#00264d] transition">Fale Conosco</a>
+    </div>
+  </header>
+
+  <!-- Seção Hero com estatísticas (Header da Página agora com estatísticas) -->
+  <section class="pt-20 bg-gradient-to-br from-[#003366] via-[#002B55] to-[#002244] text-white pb-16">
+    <div class="max-w-7xl mx-auto px-6 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">Nossa Atuação</h1>
+      <p class="text-lg md:text-xl max-w-2xl mx-auto mb-10">Track record comprovado em projetos de assessoria que geram valor significativo para nossos clientes.</p>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+        <!-- Stat Card 1 -->
+        <div class="bg-white/10 rounded-2xl p-6 stat-card cursor-pointer flex flex-col items-center justify-center">
+          <div class="text-4xl font-bold mb-2">R$ 5B+</div>
+          <div class="text-base text-gray-300">em Recursos Economizados</div>
+        </div>
+        <!-- Stat Card 2 -->
+        <div class="bg-white/10 rounded-2xl p-6 stat-card cursor-pointer flex flex-col items-center justify-center">
+          <div class="text-4xl font-bold mb-2">100+</div>
+          <div class="text-base text-gray-300">Avaliações Concluídas</div>
+        </div>
+        <!-- Stat Card 3 -->
+        <div class="bg-white/10 rounded-2xl p-6 stat-card cursor-pointer flex flex-col items-center justify-center">
+          <div class="text-4xl font-bold mb-2">98%</div>
+          <div class="text-base text-gray-300">Taxa de Satisfação</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção principal com lista de atuações -->
+  <section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex flex-col md:flex-row items-center justify-between mb-8">
+        <div class="mb-6 md:mb-0">
+          <h2 class="text-3xl font-bold text-[#003366] mb-2">Histórico de Atuação</h2>
+          <p class="text-gray-600">Explore nosso portfólio de projetos por setor e tipo.</p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <!-- Filtro por Setor -->
+          <div class="relative">
+            <select id="sectorFilter" class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded-lg leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+              <option value="">Todos os setores</option>
+              <option value="Tecnologia">Tecnologia</option>
+              <option value="Industrial">Industrial</option>
+              <option value="Serviços Financeiros">Serviços Financeiros</option>
+              <option value="Saúde">Saúde</option>
+              <option value="Energia">Energia</option>
+              <option value="Varejo">Varejo</option>
+              <option value="Educação">Educação</option>
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+              <svg class="fill-current h-4 w-4" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 6.757 7.586 5.343 9z"/></svg>
+            </div>
+          </div>
+          <!-- Filtro por Tipo -->
+          <div class="relative">
+            <select id="typeFilter" class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded-lg leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+              <option value="">Todos os tipos</option>
+              <option value="Análise da Companhia">Análise da Companhia</option>
+              <option value="Finanças & Valuation">Finanças & Valuation</option>
+              <option value="Análise Setorial">Análise Setorial</option>
+              <option value="Guidance & Estruturação">Guidance & Estruturação</option>
+              <option value="Consultoria Estratégica">Consultoria Estratégica</option>
+              <option value="Transações Internacionais">Transações Internacionais</option>
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+              <svg class="fill-current h-4 w-4" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 6.757 7.586 5.343 9z"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lista de Atuações (Cards) -->
+      <div class="space-y-6">
+        <!-- Card de Atuação 1 -->
+        <div class="bg-white rounded-xl shadow-md p-6 action-card cursor-pointer border border-gray-200" data-sector="Tecnologia" data-type="Análise da Companhia">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-bold text-[#003366]">Assessoria Estratégica - Cliente A</h3>
+            <span class="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">Concluída</span>
+          </div>
+          <p class="mb-4 text-gray-700">Análise de mercado e valuation para potencial aquisição no setor de Tecnologia.</p>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm text-gray-600 mb-4">
+            <div><span class="font-semibold">CLIENTE:</span> Cliente A Global</div>
+            <div><span class="font-semibold">SETOR:</span> Tecnologia</div>
+            <div><span class="font-semibold">TIPO:</span> Análise da Companhia</div>
+            <div><span class="font-semibold">DATA:</span> 2024-03</div>
+          </div>
+          <div class="text-sm text-gray-700 font-semibold mb-2">DESTAQUES:</div>
+          <div class="flex flex-wrap gap-2">
+            <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Valuation Detalhado</span>
+            <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Análise de Cenários</span>
+            <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Relatório de Mercado</span>
+          </div>
+        </div>
+
+        <!-- Card de Atuação 2 -->
+        <div class="bg-white rounded-xl shadow-md p-6 action-card cursor-pointer border border-gray-200" data-sector="Industrial" data-type="Finanças & Valuation">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-bold text-[#003366]">Otimização Financeira - Indústria X</h3>
+            <span class="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">Concluída</span>
+          </div>
+          <p class="mb-4 text-gray-700">Reestruturação de modelo financeiro e otimização de KPIs para empresa industrial.</p>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm text-gray-600 mb-4">
+            <div><span class="font-semibold">CLIENTE:</span> Indústria X Ltda</div>
+            <div><span class="font-semibold">SETOR:</span> Industrial</div>
+            <div><span class="font-semibold">TIPO:</span> Finanças & Valuation</div>
+            <div><span class="font-semibold">DATA:</span> 2023-11</div>
+          </div>
+          <div class="text-sm text-gray-700 font-semibold mb-2">DESTAQUES:</div>
+          <div class="flex flex-wrap gap-2">
+            <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Revisão de KPIs</span>
+            <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Modelagem de Fluxo de Caixa</span>
+            <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Estratégia de Crescimento</span>
+          </div>
+        </div>
+
+        <!-- Card de Atuação 3 -->
+        <div class="bg-white rounded-xl shadow-md p-6 action-card cursor-pointer border border-gray-200" data-sector="Tecnologia" data-type="Guidance & Estruturação">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-bold text-[#003366]">Preparação para Captação - Startup Y</h3>
+            <span class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">Em Andamento</span>
+          </div>
+          <p class="mb-4 text-gray-700">Assessoria para rodada de captação de investimento em startup de tecnologia.</p>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm text-gray-600 mb-4">
+            <div><span class="font-semibold">CLIENTE:</span> Startup Y Ventures</div>
+            <div><span class="font-semibold">SETOR:</span> Tecnologia</div>
+            <div><span class="font-semibold">TIPO:</span> Guidance & Estruturação</div>
+            <div><span class="font-semibold">DATA:</span> 2024-01</div>
+          </div>
+          <div class="text-sm text-gray-700 font-semibold mb-2">DESTAQUES:</div>
+          <div class="flex flex-wrap gap-2">
+            <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Pitch Deck</span>
+            <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Term Sheet Análise</span>
+            <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Negociação</span>
+          </div>
+        </div>
+
+        <!-- Card de Atuação 4 - Cliente Fernando Otávio -->
+        <div class="bg-white rounded-xl shadow-md p-6 action-card cursor-pointer border border-gray-200" data-sector="Saúde" data-type="Consultoria Estratégica">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-bold text-[#003366]">Consultoria Estratégica - Clínica Fernando Otávio</h3>
+            <span class="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">Concluída</span>
+          </div>
+          <p class="mb-4 text-gray-700">Desenvolvimento de estratégia de expansão e otimização operacional para rede de clínicas médicas.</p>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm text-gray-600 mb-4">
+            <div><span class="font-semibold">CLIENTE:</span> Clínica Fernando Otávio</div>
+            <div><span class="font-semibold">SETOR:</span> Saúde</div>
+            <div><span class="font-semibold">TIPO:</span> Consultoria Estratégica</div>
+            <div><span class="font-semibold">DATA:</span> 2025-06</div>
+          </div>
+          <div class="text-sm text-gray-700 font-semibold mb-2">DESTAQUES:</div>
+          <div class="flex flex-wrap gap-2">
+            <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Plano de Expansão</span>
+            <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Otimização de Custos</span>
+            <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Análise de Mercado</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-[#1A202C] text-gray-300 py-12">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Coluna da Emuná Capital -->
+      <div>
+        <img src="emuna.png" alt="Emuná Capital" class="h-16 w-auto mb-4" onerror="this.onerror=null;this.src='logo.png';">
+        <h3 class="text-xl font-bold text-white mb-2">EMUNA CAPITAL</h3>
+        <p class="text-sm mb-4">Transformamos visões em valor através de soluções estratégicas em M&A e consultoria corporativa.</p>
+      </div>
+      <!-- Coluna vazia para Services (removida) -->
+      <div></div>
+      <!-- Coluna Empresa -->
+      <div>
+        <h3 class="text-xl font-bold text-white mb-4">Empresa</h3>
+        <ul class="space-y-2">
+          <li><a href="sobre.html" class="hover:text-white transition">Sobre Nós</a></li>
+          <li><a href="equipe.html" class="hover:text-white transition">Equipe</a></li>
+          <li><a href="atuacao.html" class="hover:text-white transition">Nossa Atuação</a></li>
+          <li><a href="index4.html#contato" class="hover:text-white transition">Contato</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400 text-xs">
+      &copy; 2025 Emuná Capital. Todos os direitos reservados.
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const sectorFilter = document.getElementById('sectorFilter');
+      const typeFilter = document.getElementById('typeFilter');
+      const actionCards = document.querySelectorAll('.action-card');
+
+      function filterCards() {
+        const selectedSector = sectorFilter.value;
+        const selectedType = typeFilter.value;
+
+        console.log('Filtro de Setor:', selectedSector);
+        console.log('Filtro de Tipo:', selectedType);
+
+        actionCards.forEach(card => {
+          const cardSector = card.getAttribute('data-sector');
+          const cardType = card.getAttribute('data-type');
+
+          console.log('Card:', card.querySelector('h3').textContent);
+          console.log('Card Setor:', cardSector);
+          console.log('Card Tipo:', cardType);
+
+          let showCard = true;
+
+          if (selectedSector) {
+            showCard = cardSector === selectedSector;
+          } else if (selectedType) {
+            showCard = cardType === selectedType;
+          }
+
+          card.style.display = showCard ? '' : 'none';
+          console.log('Card visível:', showCard);
+        });
+      }
+
+      sectorFilter.addEventListener('change', function(e) {
+        e.preventDefault();
+        typeFilter.value = '';
+        filterCards();
+      });
+
+      typeFilter.addEventListener('change', function(e) {
+        e.preventDefault();
+        sectorFilter.value = '';
+        filterCards();
+      });
+
+      // Initial filter application
+      filterCards();
+    });
+  </script>
+</body>
+</html> 
