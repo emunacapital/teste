@@ -265,13 +265,44 @@
     document.addEventListener('DOMContentLoaded', function() {
       const mobileMenuButton = document.getElementById('mobile-menu-button');
       const mobileMenu = document.getElementById('mobile-menu');
-      // As classes 'hidden md:flex' e 'hidden md:inline-block' já controlam a visibilidade no mobile.
-      // Não precisamos mais de mainNav e faleConoscoButton aqui.
-      // const mainNav = document.getElementById('main-nav');
-      // const faleConoscoButton = document.querySelector('header a[href="#contato"]:last-child');
 
       mobileMenuButton.addEventListener('click', function() {
         mobileMenu.classList.toggle('hidden');
+      });
+
+      // Filtro de cards
+      const sectorFilter = document.getElementById('sectorFilter');
+      const typeFilter = document.getElementById('typeFilter');
+      const cards = document.querySelectorAll('.action-card');
+
+      function filterCards() {
+        const selectedSector = sectorFilter.value;
+        const selectedType = typeFilter.value;
+
+        cards.forEach(card => {
+          const cardSector = card.getAttribute('data-sector');
+          const cardType = card.getAttribute('data-type');
+
+          const sectorMatch = !selectedSector || cardSector === selectedSector;
+          const typeMatch = !selectedType || cardType === selectedType;
+
+          if (sectorMatch && typeMatch) {
+            card.style.display = 'block';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      }
+
+      // Reset other filter when one is changed
+      sectorFilter.addEventListener('change', function() {
+        typeFilter.value = ''; // Reset type filter
+        filterCards();
+      });
+
+      typeFilter.addEventListener('change', function() {
+        sectorFilter.value = ''; // Reset sector filter
+        filterCards();
       });
     });
   </script>
