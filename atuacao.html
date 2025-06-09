@@ -37,18 +37,43 @@
     <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-3">
       <div class="flex items-center space-x-3">
         <a href="#" onclick="location.reload(); return false;" title="Recarregar página">
-          <img src="emuna.png" alt="Emuná Capital" class="h-12 w-auto cursor-pointer" onerror="this.onerror=null;this.src='logo.png';">
+          <img src="emuna.png" alt="Emuná Capital" class="h-12 w-auto cursor-pointer" onerror="this.onerror=null;this.src='logo.azul.png';">
         </a>
       </div>
-      <nav class="hidden md:flex space-x-8 text-lg font-medium">
-        <a href="index4.html" class="transition hover:text-[#2046b3] hover:font-bold">Home</a>
-        <a href="sobre.html" class="transition hover:text-[#2046b3] hover:font-bold">Sobre</a>
-        <a href="equipe.html" class="transition hover:text-[#2046b3] hover:font-bold">Equipe</a>
-        <a href="atuacao.html" class="border-b-2 border-[#003366] pb-1 transition hover:text-[#2046b3] hover:font-bold">Nossa Atuação</a>
-        <a href="index4.html#contato" class="transition hover:text-[#2046b3] hover:font-bold">Contato</a>
-      </nav>
-      <a href="index4.html#contato" class="hidden md:inline-block bg-[#003366] text-white px-5 py-2 rounded-lg font-semibold hover:bg-[#00264d] transition">Fale Conosco</a>
+
+      <!-- Navigation Toggle Container -->
+      <div class="flex items-center">
+        <!-- Mobile Menu Button (visible md:hidden) -->
+        <div class="md:hidden">
+          <button id="mobile-menu-button" class="text-[#003366] p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#003366]">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Desktop Navigation and Button (hidden md:flex) -->
+        <div class="hidden md:flex items-center space-x-8">
+          <nav id="main-nav" class="space-x-8 text-lg font-medium">
+            <a href="index4.html" class="transition hover:text-[#2046b3] hover:font-bold">Home</a>
+            <a href="sobre.html" class="transition hover:text-[#2046b3] hover:font-bold">Sobre</a>
+            <a href="equipe.html" class="transition hover:text-[#2046b3] hover:font-bold">Equipe</a>
+            <a href="atuacao.html" class="border-b-2 border-[#003366] pb-1 transition hover:text-[#2046b3] hover:font-bold">Nossa Atuação</a>
+            <a href="index4.html#contato" class="transition hover:text-[#2046b3] hover:font-bold">Contato</a>
+          </nav>
+          <a href="index4.html#contato" class="bg-[#003366] text-white px-5 py-2 rounded-lg font-semibold hover:bg-[#00264d] transition">Fale Conosco</a>
+        </div>
+      </div>
     </div>
+    <!-- Mobile Menu -->
+    <nav id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4 space-y-1 sm:px-3 text-center">
+      <a href="index4.html" class="block px-3 py-2 rounded-md text-base font-medium text-[#003366] hover:bg-gray-100 transition hover:text-[#2046b3] hover:font-bold">Home</a>
+      <a href="sobre.html" class="block px-3 py-2 rounded-md text-base font-medium text-[#003366] hover:bg-gray-100 transition hover:text-[#2046b3] hover:font-bold">Sobre</a>
+      <a href="equipe.html" class="block px-3 py-2 rounded-md text-base font-medium text-[#003366] hover:bg-gray-100 transition hover:text-[#2046b3] hover:font-bold">Equipe</a>
+      <a href="index4.html#servicos" class="block px-3 py-2 rounded-md text-base font-medium text-[#003366] hover:bg-gray-100 transition hover:text-[#2046b3] hover:font-bold">Serviços</a>
+      <a href="index4.html#contato" class="block px-3 py-2 rounded-md text-base font-medium text-[#003366] hover:bg-gray-100 transition hover:text-[#2046b3] hover:font-bold">Contato</a>
+      <a href="index4.html#contato" class="mt-4 block bg-[#003366] text-white px-5 py-2 rounded-lg font-semibold hover:bg-[#00264d] transition text-center">Fale Conosco</a>
+    </nav>
   </header>
 
   <!-- Seção Hero com estatísticas (Header da Página agora com estatísticas) -->
@@ -238,52 +263,16 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      const sectorFilter = document.getElementById('sectorFilter');
-      const typeFilter = document.getElementById('typeFilter');
-      const actionCards = document.querySelectorAll('.action-card');
+      const mobileMenuButton = document.getElementById('mobile-menu-button');
+      const mobileMenu = document.getElementById('mobile-menu');
+      // As classes 'hidden md:flex' e 'hidden md:inline-block' já controlam a visibilidade no mobile.
+      // Não precisamos mais de mainNav e faleConoscoButton aqui.
+      // const mainNav = document.getElementById('main-nav');
+      // const faleConoscoButton = document.querySelector('header a[href="#contato"]:last-child');
 
-      function filterCards() {
-        const selectedSector = sectorFilter.value;
-        const selectedType = typeFilter.value;
-
-        console.log('Filtro de Setor:', selectedSector);
-        console.log('Filtro de Tipo:', selectedType);
-
-        actionCards.forEach(card => {
-          const cardSector = card.getAttribute('data-sector');
-          const cardType = card.getAttribute('data-type');
-
-          console.log('Card:', card.querySelector('h3').textContent);
-          console.log('Card Setor:', cardSector);
-          console.log('Card Tipo:', cardType);
-
-          let showCard = true;
-
-          if (selectedSector) {
-            showCard = cardSector === selectedSector;
-          } else if (selectedType) {
-            showCard = cardType === selectedType;
-          }
-
-          card.style.display = showCard ? '' : 'none';
-          console.log('Card visível:', showCard);
-        });
-      }
-
-      sectorFilter.addEventListener('change', function(e) {
-        e.preventDefault();
-        typeFilter.value = '';
-        filterCards();
+      mobileMenuButton.addEventListener('click', function() {
+        mobileMenu.classList.toggle('hidden');
       });
-
-      typeFilter.addEventListener('change', function(e) {
-        e.preventDefault();
-        sectorFilter.value = '';
-        filterCards();
-      });
-
-      // Initial filter application
-      filterCards();
     });
   </script>
 </body>

@@ -54,10 +54,17 @@
     <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-3">
       <div class="flex items-center space-x-3">
         <a href="#" onclick="location.reload(); return false;" title="Recarregar página">
-          <img src="emuna.png" alt="Emuná Capital" class="h-12 w-auto cursor-pointer" onerror="this.onerror=null;this.src='logo.png';">
+          <img src="emuna.png" alt="Emuná Capital" class="h-12 w-auto cursor-pointer" onerror="this.onerror=null;this.src='logo.azul.png';">
         </a>
       </div>
-      <nav class="hidden md:flex space-x-8 text-lg font-medium">
+      <div class="md:hidden">
+        <button id="mobile-menu-button" class="text-[#003366] p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#003366]">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+      <nav id="main-nav" class="hidden md:flex space-x-8 text-lg font-medium">
         <a href="#" class="border-b-2 border-[#003366] pb-1 transition hover:text-[#2046b3] hover:font-bold">Home</a>
         <a href="sobre.html" class="transition hover:text-[#2046b3] hover:font-bold">Sobre</a>
         <a href="equipe.html" class="transition hover:text-[#2046b3] hover:font-bold">Equipe</a>
@@ -66,6 +73,15 @@
       </nav>
       <a href="#contato" class="hidden md:inline-block bg-[#003366] text-white px-5 py-2 rounded-lg font-semibold hover:bg-[#00264d] transition">Fale Conosco</a>
     </div>
+    <!-- Mobile Menu -->
+    <nav id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4 space-y-1 sm:px-3 text-center">
+      <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-[#003366] hover:bg-gray-100 border-b-2 border-[#003366] pb-1 transition hover:text-[#2046b3] hover:font-bold">Home</a>
+      <a href="sobre.html" class="block px-3 py-2 rounded-md text-base font-medium text-[#003366] hover:bg-gray-100 transition hover:text-[#2046b3] hover:font-bold">Sobre</a>
+      <a href="equipe.html" class="block px-3 py-2 rounded-md text-base font-medium text-[#003366] hover:bg-gray-100 transition hover:text-[#2046b3] hover:font-bold">Equipe</a>
+      <a href="#servicos" class="block px-3 py-2 rounded-md text-base font-medium text-[#003366] hover:bg-gray-100 transition hover:text-[#2046b3] hover:font-bold">Serviços</a>
+      <a href="#contato" class="block px-3 py-2 rounded-md text-base font-medium text-[#003366] hover:bg-gray-100 transition hover:text-[#2046b3] hover:font-bold">Contato</a>
+      <a href="#contato" class="mt-4 block bg-[#003366] text-white px-5 py-2 rounded-lg font-semibold hover:bg-[#00264d] transition text-center">Fale Conosco</a>
+    </nav>
   </header>
 
   <!-- Hero Section -->
@@ -391,6 +407,15 @@
             el.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }
         });
+      });
+
+      const mobileMenuButton = document.getElementById('mobile-menu-button');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const mainNav = document.getElementById('main-nav');
+      const faleConoscoButton = document.querySelector('header a[href="#contato"]:last-child');
+
+      mobileMenuButton.addEventListener('click', function() {
+        mobileMenu.classList.toggle('hidden');
       });
     });
 
