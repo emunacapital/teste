@@ -10,5 +10,8 @@ RewriteRule ^sobre/?$ sobre.html [L]
 # Redirect /equipe to /equipe.html
 RewriteRule ^equipe/?$ equipe.html [L]
 
+# Redirect /home to /index.html
+RewriteRule ^home/?$ index.html [L]
+
 # Redirect root to index.html
 RewriteRule ^$ index.html [L] 
