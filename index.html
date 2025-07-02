@@ -33,8 +33,15 @@
     }
   </style>
   <script>
-    // Scroll suave para o formulário de contato e serviços
     document.addEventListener('DOMContentLoaded', function() {
+      // Scroll suave para o topo quando clicar em "Home"
+      document.querySelectorAll('a[href="#"]').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      });
+
       document.querySelectorAll('a[href="#contato"], a[href="#servicos"]').forEach(function(btn) {
         btn.addEventListener('click', function(e) {
           e.preventDefault();
@@ -44,6 +51,15 @@
             el.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }
         });
+      });
+
+      const mobileMenuButton = document.getElementById('mobile-menu-button');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const mainNav = document.getElementById('main-nav');
+      const faleConoscoButton = document.querySelector('header a[href="#contato"]:last-child');
+
+      mobileMenuButton.addEventListener('click', function() {
+        mobileMenu.classList.toggle('hidden');
       });
     });
   </script>
@@ -65,7 +81,7 @@
         </button>
       </div>
       <nav id="main-nav" class="hidden md:flex space-x-8 text-lg font-medium">
-        <a href="/home" class="border-b-2 border-[#003366] pb-1 transition hover:text-[#2046b3] hover:font-bold">Home</a>
+        <a href="#" class="border-b-2 border-[#003366] pb-1 transition hover:text-[#2046b3] hover:font-bold">Home</a>
         <a href="sobre" class="transition hover:text-[#2046b3] hover:font-bold">Sobre</a>
         <a href="equipe" class="transition hover:text-[#2046b3] hover:font-bold">Equipe</a>
         <a href="index.html#servicos" class="transition hover:text-[#2046b3] hover:font-bold">Serviços</a>
@@ -75,7 +91,7 @@
     </div>
     <!-- Mobile Menu -->
     <nav id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4 space-y-1 sm:px-3 text-center">
-      <a href="/home" class="block px-3 py-2 rounded-md text-base font-medium text-[#003366] hover:bg-gray-100 border-b-2 border-[#003366] pb-1 transition hover:text-[#2046b3] hover:font-bold">Home</a>
+      <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-[#003366] hover:bg-gray-100 border-b-2 border-[#003366] pb-1 transition hover:text-[#2046b3] hover:font-bold">Home</a>
       <a href="sobre" class="block px-3 py-2 rounded-md text-base font-medium text-[#003366] hover:bg-gray-100 transition hover:text-[#2046b3] hover:font-bold">Sobre</a>
       <a href="equipe" class="block px-3 py-2 rounded-md text-base font-medium text-[#003366] hover:bg-gray-100 transition hover:text-[#2046b3] hover:font-bold">Equipe</a>
       <a href="index.html#servicos" class="block px-3 py-2 rounded-md text-base font-medium text-[#003366] hover:bg-gray-100 transition hover:text-[#2046b3] hover:font-bold">Serviços</a>
@@ -460,28 +476,6 @@
     </div>
   </footer>
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      document.querySelectorAll('a[href="#contato"], a[href="#servicos"]').forEach(function(btn) {
-        btn.addEventListener('click', function(e) {
-          e.preventDefault();
-          var targetId = this.getAttribute('href').replace('#', '');
-          var el = document.getElementById(targetId);
-          if(el) {
-            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-        });
-      });
-
-      const mobileMenuButton = document.getElementById('mobile-menu-button');
-      const mobileMenu = document.getElementById('mobile-menu');
-      const mainNav = document.getElementById('main-nav');
-      const faleConoscoButton = document.querySelector('header a[href="#contato"]:last-child');
-
-      mobileMenuButton.addEventListener('click', function() {
-        mobileMenu.classList.toggle('hidden');
-      });
-    });
-
     const contactForm = document.querySelector('form[data-formspree]');
     if (contactForm) {
       contactForm.addEventListener('submit', async (e) => {
