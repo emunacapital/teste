@@ -46,10 +46,12 @@
         });
       });
 
-      document.querySelectorAll('a[href="#contato"], a[href="#servicos"]').forEach(function(btn) {
+      // Scroll suave para seções internas
+      document.querySelectorAll('a[href*="#contato"], a[href*="#servicos"]').forEach(function(btn) {
         btn.addEventListener('click', function(e) {
           e.preventDefault();
-          var targetId = this.getAttribute('href').replace('#', '');
+          var href = this.getAttribute('href');
+          var targetId = href.includes('#') ? href.split('#')[1] : href.replace('#', '');
           var el = document.getElementById(targetId);
           if(el) {
             el.scrollIntoView({ behavior: 'smooth', block: 'start' });
