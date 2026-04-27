@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Valuation — Emuná Capital</title>
+  <meta name="description" content="Estimativa educacional de valor com base em setor, receita e perfil de margem. Para valuation completo ou pré-M&A, fale com a Emuná Capital." />
+  <meta name="robots" content="index, follow" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="canonical" href="https://emunacapital.com.br/avaliacao.html" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+  <style>
+    :root {
+      --ink: #0b1423;
+      --navy: #0e2344;
+      --blue: #123a6d;
+      --cream: #f6f3ec;
+      --paper: #fdfcfa;
+      --line: rgba(201, 169, 97, 0.45);
+      --gold: #c9a961;
+    }
+    body { font-family: 'Montserrat', system-ui, sans-serif; color: var(--ink); }
+    .font-display { font-family: 'Cormorant Garamond', Georgia, serif; }
+    .bg-ambient {
+      background:
+        radial-gradient(120% 80% at 100% 0%, rgba(18, 58, 109, 0.14) 0%, transparent 55%),
+        radial-gradient(90% 60% at 0% 100%, rgba(201, 169, 97, 0.08) 0%, transparent 50%),
+        linear-gradient(165deg, #f0ebe2 0%, var(--cream) 40%, #e8e4dc 100%);
+    }
+    .panel {
+      background: linear-gradient(145deg, rgba(255,255,255,0.94) 0%, rgba(253,252,250,0.99) 100%);
+      border: 1px solid rgba(14, 35, 68, 0.09);
+      box-shadow:
+        0 1px 0 rgba(255,255,255,0.85) inset,
+        0 2px 0 rgba(255,255,255,0.4) inset,
+        0 28px 64px -20px rgba(11, 20, 35, 0.22),
+        0 12px 32px -16px rgba(11, 20, 35, 0.12);
+    }
+    .gold-rule {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--line), transparent);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+    .slide-viewport { overflow: hidden; position: relative; min-height: 28rem; }
+    .slide-track {
+      display: flex;
+      width: 100%;
+      transition: transform 0.55s cubic-bezier(0.33, 1, 0.68, 1);
+      will-change: transform;
+    }
+    .slide {
+      flex: 0 0 100%;
+      width: 100%;
+      padding: 0.25rem 0.15rem 1.25rem;
+      box-sizing: border-box;
+      opacity: 0.55;
+      transform: translateY(6px);
+      transition: opacity 0.4s ease, transform 0.45s cubic-bezier(0.33, 1, 0.68, 1);
+    }
+    .slide.is-active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .sector-card {
+      border: 1px solid rgba(14, 35, 68, 0.1);
+      border-radius: 0.75rem;
+      padding: 0.85rem 0.75rem;
+      text-align: left;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+      background: rgba(255,255,255,0.65);
+    }
+    .sector-card:hover { transform: translateY(-2px); box-shadow: 0 12px 28px -18px rgba(11,20,35,0.25); }
+    .sector-card.selected {
+      border-color: rgba(18, 58, 109, 0.55);
+      box-shadow: 0 0 0 1px rgba(18, 58, 109, 0.2);
+      background: rgba(18, 58, 109, 0.04);
+    }
+    .chip {
+      border-radius: 9999px;
+      border: 1px solid rgba(14, 35, 68, 0.12);
+      padding: 0.45rem 0.9rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      transition: all 0.2s;
+      background: #fff;
+    }
+    .chip:hover { border-color: rgba(18, 58, 109, 0.35); }
+    .chip.active {
+      background: var(--navy);
+      color: #fff;
+      border-color: var(--navy);
+    }
+    .btn-primary {
+      background: linear-gradient(180deg, #123a6d 0%, #0e2344 100%);
+      color: #fff;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      border-radius: 0.5rem;
+      padding: 0.65rem 1.35rem;
+      transition: filter 0.2s, transform 0.15s, box-shadow 0.25s ease;
+      box-shadow: 0 4px 14px -4px rgba(14, 35, 68, 0.45);
+    }
+    .btn-primary:hover {
+      filter: brightness(1.06);
+      box-shadow: 0 8px 22px -6px rgba(14, 35, 68, 0.5);
+    }
+    .btn-primary:active { transform: translateY(1px); }
+    .btn-primary:focus-visible {
+      outline: 2px solid rgba(201, 169, 97, 0.9);
+      outline-offset: 2px;
+    }
+    .btn-ghost {
+      border: 1px solid rgba(14, 35, 68, 0.2);
+      color: var(--navy);
+      font-weight: 600;
+      border-radius: 0.5rem;
+      padding: 0.55rem 1.1rem;
+      background: rgba(255,255,255,0.7);
+      transition: background 0.2s, box-shadow 0.25s ease, border-color 0.2s;
+    }
+    .btn-ghost:hover {
+      background: #fff;
+      box-shadow: 0 6px 18px -8px rgba(11, 20, 35, 0.2);
+      border-color: rgba(14, 35, 68, 0.28);
+    }
+    .btn-ghost:focus-visible {
+      outline: 2px solid rgba(18, 58, 109, 0.35);
+      outline-offset: 2px;
+    }
+    .input-elegant {
+      width: 100%;
+      border: 1px solid rgba(14, 35, 68, 0.14);
+      border-radius: 0.5rem;
+      padding: 0.65rem 0.85rem;
+      font-size: 0.9rem;
+      background: rgba(255,255,255,0.9);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .input-elegant:focus {
+      outline: none;
+      border-color: rgba(18, 58, 109, 0.45);
+      box-shadow: 0 0 0 3px rgba(18, 58, 109, 0.12);
+    }
+    .review-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.65rem 0;
+      border-bottom: 1px solid rgba(14, 35, 68, 0.06);
+    }
+    .review-row:last-child { border-bottom: none; }
+    .progress-dot {
+      width: 0.35rem;
+      height: 0.35rem;
+      border-radius: 9999px;
+      background: rgba(14, 35, 68, 0.15);
+      transition: background 0.25s, transform 0.25s;
+    }
+    .progress-dot.on { background: var(--navy); transform: scale(1.35); }
+    .fade-in { animation: fadeIn 0.45s ease both; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    #results-root { display: none; }
+    #results-root.visible { display: block; }
+    #wizard-root.hidden { display: none; }
+    #consent-block {
+      border-radius: 0.75rem;
+      border: 1px solid transparent;
+      padding: 0.75rem 1rem;
+      transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
+    }
+    #consent-block.consent-invalid {
+      border-color: #b91c1c;
+      background-color: rgba(254, 242, 242, 0.55);
+      box-shadow: 0 0 0 1px rgba(185, 28, 28, 0.15);
+    }
+    #consent-block.consent-invalid label,
+    #consent-block.consent-invalid label span {
+      color: #991b1b;
+    }
+    #consent-block.consent-invalid a {
+      color: #7f1d1d;
+      text-decoration-color: rgba(127, 29, 29, 0.5);
+    }
+    #consent-block.consent-invalid input[type="checkbox"] {
+      border-color: #b91c1c;
+      color: #b91c1c;
+    }
+  </style>
+</head>
+<body class="bg-ambient min-h-screen text-[#0b1423]">
+  <header class="w-full bg-white border-b border-gray-100 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-3">
+      <div class="flex items-center space-x-3">
+        <a href="index.html" title="Emuná Capital">
+          <img src="emuna.png" alt="Emuná Capital" class="h-20 w-auto" onerror="this.onerror=null;this.src='logo.azul.png';" />
+        </a>
+      </div>
+      <div class="md:hidden">
+        <button id="mobile-menu-button" type="button" class="text-[#003366] p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#003366]" aria-label="Menu">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+      <nav id="main-nav" class="hidden md:flex space-x-8 text-lg font-medium">
+        <a href="index.html" class="transition hover:text-[#2046b3] hover:font-bold text-[#003366]">Home</a>
+        <a href="sobre" class="transition hover:text-[#2046b3] hover:font-bold text-[#003366]">Sobre</a>
+        <a href="equipe" class="transition hover:text-[#2046b3] hover:font-bold text-[#003366]">Equipe</a>
+        <a href="index.html#servicos" class="transition hover:text-[#2046b3] hover:font-bold text-[#003366]">Serviços</a>
+        <a href="avaliacao.html" class="border-b-2 border-[#003366] pb-1 text-[#003366] transition hover:text-[#2046b3] hover:font-bold">Valuation</a>
+        <a href="index.html#contato" class="transition hover:text-[#2046b3] hover:font-bold text-[#003366]">Contato</a>
+      </nav>
+      <a href="index.html#contato" class="hidden md:inline-block bg-[#003366] text-white px-5 py-2 rounded-lg font-semibold hover:bg-[#00264d] transition">Fale Conosco</a>
+    </div>
+    <nav id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4 space-y-1 sm:px-3 text-center border-t border-gray-100 bg-white">
+      <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium text-[#003366] hover:bg-gray-100 transition hover:text-[#2046b3] hover:font-bold">Home</a>
+      <a href="sobre" class="block px-3 py-2 rounded-md text-base font-medium text-[#003366] hover:bg-gray-100 transition hover:text-[#2046b3] hover:font-bold">Sobre</a>
+      <a href="equipe" class="block px-3 py-2 rounded-md text-base font-medium text-[#003366] hover:bg-gray-100 transition hover:text-[#2046b3] hover:font-bold">Equipe</a>
+      <a href="index.html#servicos" class="block px-3 py-2 rounded-md text-base font-medium text-[#003366] hover:bg-gray-100 transition hover:text-[#2046b3] hover:font-bold">Serviços</a>
+      <a href="avaliacao.html" class="block px-3 py-2 rounded-md text-base font-medium text-[#003366] hover:bg-gray-100 border-b-2 border-[#003366] pb-1 transition hover:text-[#2046b3] hover:font-bold">Valuation</a>
+      <a href="index.html#contato" class="block px-3 py-2 rounded-md text-base font-medium text-[#003366] hover:bg-gray-100 transition hover:text-[#2046b3] hover:font-bold">Contato</a>
+      <a href="index.html#contato" class="mt-4 block bg-[#003366] text-white px-5 py-2 rounded-lg font-semibold hover:bg-[#00264d] transition text-center">Fale Conosco</a>
+    </nav>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
+    <header class="text-center mb-10 fade-in">
+      <p class="text-[0.7rem] uppercase tracking-[0.28em] text-[#0e2344]/55 font-semibold mb-3">Emuná Capital · Inteligência de mercado</p>
+      <h1 class="font-display text-4xl sm:text-5xl font-semibold text-[#0e2344] leading-tight">Avaliação indicativa</h1>
+      <p class="mt-4 max-w-2xl mx-auto text-[#0b1423]/75 text-sm sm:text-base leading-relaxed">
+        Fluxo guiado para uma visão preliminar de valor. Estética sóbria, linguagem institucional e referências setoriais agregadas — sem prometer precificação de mercado.
+      </p>
+    </header>
+
+    <div id="wizard-root" class="max-w-xl mx-auto">
+      <div class="panel rounded-2xl sm:rounded-3xl px-5 sm:px-10 py-8 sm:py-10 fade-in">
+        <div class="flex items-center justify-between gap-3 mb-6">
+          <div id="progress-dots" class="flex flex-wrap gap-1.5"></div>
+          <span id="step-label" class="text-[0.65rem] uppercase tracking-[0.2em] text-[#0e2344]/45 font-semibold whitespace-nowrap"></span>
+        </div>
+        <div class="gold-rule mb-8"></div>
+
+        <div class="slide-viewport">
+          <div id="slide-track" class="slide-track">
+            <!-- 0 -->
+            <div class="slide is-active" data-step="0">
+              <h2 class="font-display text-2xl sm:text-3xl text-[#0e2344] mb-3">Antes de começarmos</h2>
+              <p class="text-sm text-[#0b1423]/75 mb-6 leading-relaxed">
+                Esta experiência produz uma <strong class="text-[#0e2344]">faixa indicativa</strong> com base em premissas simplificadas. Não substitui diligência, modelo financeiro completo ou documentação para M&A.
+              </p>
+              <div id="consent-block" class="mb-8">
+                <label for="consent-lgpd" class="flex items-start gap-3 cursor-pointer text-sm text-[#0b1423]/85">
+                  <input type="checkbox" id="consent-lgpd" class="mt-1 rounded border-gray-300 text-[#0e2344] focus:ring-[#123a6d]" />
+                  <span>Autorizo o tratamento dos dados informados para contato comercial pela Emuná Capital, conforme a <a href="privacidade.html" class="underline decoration-[#c9a961]/60 hover:text-[#0e2344]">política de privacidade</a> aplicável.</span>
+                </label>
+              </div>
+              <div class="flex flex-wrap gap-3 justify-end">
+                <button type="button" class="btn-primary" data-next>Continuar</button>
+              </div>
+            </div>
+            <!-- 1 -->
+            <div class="slide" data-step="1">
+              <h2 class="font-display text-2xl sm:text-3xl text-[#0e2344] mb-1">Identificação</h2>
+              <p class="text-sm text-[#0b1423]/65 mb-6">Dados para retorno institucional. Campos essenciais marcados com *</p>
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-xs font-semibold uppercase tracking-wider text-[#0e2344]/55 mb-1.5">Razão social *</label>
+                  <input class="input-elegant" type="text" id="f-empresa" autocomplete="organization" required />
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold uppercase tracking-wider text-[#0e2344]/55 mb-1.5">CNPJ *</label>
+                  <input class="input-elegant" type="text" id="f-cnpj" inputmode="numeric" placeholder="00.000.000/0001-00" required />
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold uppercase tracking-wider text-[#0e2344]/55 mb-1.5">E-mail corporativo *</label>
+                  <input class="input-elegant" type="email" id="f-email" autocomplete="email" required />
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold uppercase tracking-wider text-[#0e2344]/55 mb-1.5">Nome do contato *</label>
+                  <input class="input-elegant" type="text" id="f-nome" autocomplete="name" required />
+                </div>
+                <input type="hidden" id="f-ip" />
+                <input type="hidden" id="f-ua" />
+              </div>
+              <div class="flex flex-wrap gap-3 justify-between mt-8">
+                <button type="button" class="btn-ghost" data-prev>Voltar</button>
+                <button type="button" class="btn-primary" data-next>Avançar</button>
+              </div>
+            </div>
+            <!-- 2 -->
+            <div class="slide" data-step="2">
+              <h2 class="font-display text-2xl sm:text-3xl text-[#0e2344] mb-1">Setor predominante</h2>
+              <p class="text-sm text-[#0b1423]/65 mb-5">Selecione o segmento que melhor descreve a receita recorrente da companhia.</p>
+              <div id="sector-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-[min(22rem,50vh)] overflow-y-auto pr-1"></div>
+              <p class="text-xs text-[#0b1423]/50 mt-3">Referências de múltiplos são medianas ilustrativas por cluster setorial.</p>
+              <div class="flex flex-wrap gap-3 justify-between mt-8">
+                <button type="button" class="btn-ghost" data-prev>Voltar</button>
+                <button type="button" class="btn-primary" data-next>Avançar</button>
+              </div>
+            </div>
+            <!-- 3 -->
+            <div class="slide" data-step="3">
+              <h2 class="font-display text-2xl sm:text-3xl text-[#0e2344] mb-1">Faturamento anual (receita líquida)</h2>
+              <p class="text-sm text-[#0b1423]/65 mb-5">Primeiro indique a ordem de grandeza; em seguida, um valor aproximado.</p>
+              <p class="text-xs font-semibold uppercase tracking-wider text-[#0e2344]/55 mb-2">Faixa</p>
+              <div id="revenue-bands" class="flex flex-wrap gap-2 mb-6"></div>
+              <div class="gold-rule my-5"></div>
+              <label class="block text-xs font-semibold uppercase tracking-wider text-[#0e2344]/55 mb-1.5">Valor aproximado (R$)</label>
+              <input class="input-elegant" type="text" id="f-receita" inputmode="decimal" placeholder="ex.: 85.000.000" />
+              <p class="text-xs text-[#0b1423]/50 mt-2">Use o melhor palpite; refinamos em diligência.</p>
+              <div class="flex flex-wrap gap-3 justify-between mt-8">
+                <button type="button" class="btn-ghost" data-prev>Voltar</button>
+                <button type="button" class="btn-primary" data-next>Avançar</button>
+              </div>
+            </div>
+            <!-- 4 -->
+            <div class="slide" data-step="4">
+              <h2 class="font-display text-2xl sm:text-3xl text-[#0e2344] mb-1">Margem e lucro operacional</h2>
+              <p class="text-sm text-[#0b1423]/65 mb-5">Escolha como prefere informar o perfil de rentabilidade.</p>
+              <div class="space-y-3 mb-6">
+                <label class="flex items-center gap-3 p-3 rounded-lg border border-[#0e2344]/10 cursor-pointer hover:bg-white/80 has-[:checked]:border-[#0e2344]/35">
+                  <input type="radio" name="finpath" value="ebitda" class="text-[#0e2344]" />
+                  <span class="text-sm">Tenho EBITDA aproximado ou projetado</span>
+                </label>
+                <label class="flex items-center gap-3 p-3 rounded-lg border border-[#0e2344]/10 cursor-pointer hover:bg-white/80 has-[:checked]:border-[#0e2344]/35">
+                  <input type="radio" name="finpath" value="margin" class="text-[#0e2344]" />
+                  <span class="text-sm">Prefiro informar margem EBITDA sobre a receita</span>
+                </label>
+                <label class="flex items-center gap-3 p-3 rounded-lg border border-[#0e2344]/10 cursor-pointer hover:bg-white/80 has-[:checked]:border-[#0e2344]/35">
+                  <input type="radio" name="finpath" value="health" class="text-[#0e2344]" checked />
+                  <span class="text-sm">Não tenho números — responder perguntas rápidas de saúde</span>
+                </label>
+              </div>
+              <div id="block-ebitda" class="hidden space-y-3 mb-2">
+                <label class="text-xs font-semibold uppercase tracking-wider text-[#0e2344]/55">EBITDA anual aproximado (R$)</label>
+                <input class="input-elegant" type="text" id="f-ebitda" inputmode="decimal" placeholder="ex.: 12.500.000" />
+              </div>
+              <div id="block-margin" class="hidden space-y-3 mb-2">
+                <label class="text-xs font-semibold uppercase tracking-wider text-[#0e2344]/55">Margem EBITDA (%)</label>
+                <input class="input-elegant" type="number" id="f-margin" min="0" max="80" step="0.5" placeholder="ex.: 18" />
+              </div>
+              <div id="block-health" class="space-y-4">
+                <p class="text-xs font-semibold uppercase tracking-wider text-[#0e2344]/55">Perfil operacional</p>
+                <div>
+                  <p class="text-sm mb-2">Crescimento da receita nos últimos 24 meses, em linhas gerais:</p>
+                  <select id="hq-growth" class="input-elegant">
+                    <option value="2">Acima do setor / consistente</option>
+                    <option value="1" selected>Estável</option>
+                    <option value="0">Contratil ou volátil</option>
+                  </select>
+                </div>
+                <div>
+                  <p class="text-sm mb-2">Alavancagem (dívida líquida vs. geração de caixa):</p>
+                  <select id="hq-lev" class="input-elegant">
+                    <option value="2">Conservadora</option>
+                    <option value="1" selected>Moderada</option>
+                    <option value="0">Elevada / stress</option>
+                  </select>
+                </div>
+                <div>
+                  <p class="text-sm mb-2">Qualidade de governança e reporting:</p>
+                  <select id="hq-gov" class="input-elegant">
+                    <option value="2">Fortes controles e fechamentos regulares</option>
+                    <option value="1" selected>Intermediária</option>
+                    <option value="0">Informal / em estruturação</option>
+                  </select>
+                </div>
+              </div>
+              <div class="flex flex-wrap gap-3 justify-between mt-8">
+                <button type="button" class="btn-ghost" data-prev>Voltar</button>
+                <button type="button" class="btn-primary" data-next>Avançar</button>
+              </div>
+            </div>
+            <!-- 5 review -->
+            <div class="slide" data-step="5">
+              <h2 class="font-display text-2xl sm:text-3xl text-[#0e2344] mb-1">Revisão</h2>
+              <p class="text-sm text-[#0b1423]/65 mb-5">Confira os blocos. Você pode editar qualquer etapa antes de gerar o painel.</p>
+              <div id="review-list" class="text-sm"></div>
+              <div class="flex flex-wrap gap-3 justify-between mt-8">
+                <button type="button" class="btn-ghost" data-prev>Voltar</button>
+                <button type="button" class="btn-primary" id="btn-generate">Gerar painel indicativo</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="results-root" class="max-w-3xl mx-auto mt-4">
+      <div class="panel rounded-2xl sm:rounded-3xl px-5 sm:px-10 py-8 sm:py-10 fade-in">
+        <p class="text-[0.65rem] uppercase tracking-[0.24em] text-[#0e2344]/45 font-semibold mb-2">Resultado preliminar</p>
+        <h2 class="font-display text-2xl sm:text-3xl md:text-4xl text-[#0e2344] mb-2 leading-tight">Sua companhia vale, em ordem de grandeza, aproximadamente</h2>
+        <p class="text-sm text-[#0b1423]/65 mb-4">Simulação simplificada a partir de receita, margem ou EBITDA informados e de referências de mercado — não é laudo nem oferta.</p>
+        <p id="res-band" class="text-lg sm:text-xl font-semibold text-[#123a6d] mb-6"></p>
+        <div class="grid sm:grid-cols-2 gap-4 mb-8">
+          <div class="rounded-xl border border-[#0e2344]/10 p-4 bg-white/60">
+            <p class="text-xs uppercase tracking-wider text-[#0e2344]/50 font-semibold mb-1">Múltiplo de referência (comparáveis)</p>
+            <p id="res-mult" class="text-2xl font-display font-semibold text-[#0e2344]"></p>
+            <p id="res-mult-note" class="text-xs text-[#0b1423]/55 mt-2"></p>
+            <p class="text-xs text-[#0b1423]/50 mt-1">Referência agregada do setor; o valor da faixa usa o múltiplo ajustado ao perfil informado.</p>
+          </div>
+          <div class="rounded-xl border border-[#0e2344]/10 p-4 bg-white/60">
+            <p class="text-xs uppercase tracking-wider text-[#0e2344]/50 font-semibold mb-1">EBITDA utilizado na simulação</p>
+            <p id="res-ebitda" class="text-2xl font-display font-semibold text-[#0e2344]"></p>
+            <p class="text-xs text-[#0b1423]/55 mt-1">Com base nas premissas que você informou.</p>
+          </div>
+        </div>
+        <div class="rounded-xl border border-[#0e2344]/08 p-4 sm:p-5 bg-[#faf8f4] mb-5">
+          <p class="text-xs font-semibold uppercase tracking-wider text-[#0e2344]/55 mb-3">Comparativo de múltiplos entre setores (referência de mercado)</p>
+          <div class="h-64 sm:h-72"><canvas id="chart-multiples"></canvas></div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+          <div class="rounded-xl border border-[#0e2344]/08 p-3 sm:p-4 bg-white/70">
+            <p class="text-[0.65rem] font-semibold uppercase tracking-wider text-[#0e2344]/55 mb-2">Múltiplo: setor × perfil</p>
+            <p class="text-xs text-[#0b1423]/55 mb-2">Referência do setor frente ao múltiplo após combinar alavancagem, tração operacional e <strong>margem EBITDA da simulação</strong> frente ao benchmark do setor (vale para perguntas, margem informada ou EBITDA).</p>
+            <div class="h-44"><canvas id="chart-mult-adj"></canvas></div>
+          </div>
+          <div class="rounded-xl border border-[#0e2344]/08 p-3 sm:p-4 bg-white/70">
+            <p class="text-[0.65rem] font-semibold uppercase tracking-wider text-[#0e2344]/55 mb-2">Margem utilizada × benchmark</p>
+            <p class="text-xs text-[#0b1423]/55 mb-2">Sua margem EBITDA estimada na simulação em relação à referência típica do setor.</p>
+            <div class="h-44"><canvas id="chart-margin"></canvas></div>
+          </div>
+        </div>
+        <p class="text-xs text-[#0b1423]/60 leading-relaxed border-l-2 border-[#c9a961]/70 pl-3 mb-8">
+          Os múltiplos exibidos são <strong>referências agregadas</strong> para contextualização. A <strong>faixa indicativa de valor da companhia</strong> combina o EBITDA utilizado com o múltiplo ajustado ao seu perfil, com banda de incerteza simplificada (±20%). Em operações reais entram ajustes por tamanho, liquidez, qualidade de caixa, capital de giro, CAPEX e risco país, entre outros.
+        </p>
+        <div class="gold-rule mb-6"></div>
+        <div class="flex flex-col gap-5">
+          <div>
+            <p class="font-display text-xl text-[#0e2344]">Próximo passo institucional</p>
+            <p class="text-sm text-[#0b1423]/70 mt-1">Valuation completo, preparação pré-M&A ou parecer de valor sob metodologia dedicada.</p>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 items-stretch">
+            <a href="index.html#contato" class="btn-primary text-center text-sm px-5 py-3 rounded-lg w-full min-h-[3rem] flex items-center justify-center">Falar com a Emuná</a>
+            <button type="button" class="btn-ghost text-sm w-full min-h-[3rem] flex items-center justify-center" id="btn-restart">Nova simulação</button>
+          </div>
+        </div>
+        <p id="lead-status" class="text-xs text-[#0b1423]/50 mt-6"></p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-[#1A202C] text-gray-300 py-12 text-sm mt-16" style="font-family:'Montserrat',sans-serif">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div>
+        <img src="emuna.png" alt="Emuná Capital" class="h-16 w-auto mb-4" onerror="this.onerror=null;this.src='logo.png';" />
+        <h3 class="text-xl font-bold text-white mb-2">EMUNA CAPITAL</h3>
+        <p class="text-sm mb-4">Transformamos visões em valor através de soluções estratégicas em M&amp;A e consultoria corporativa.</p>
+      </div>
+      <div></div>
+      <div>
+        <h3 class="text-xl font-bold text-white mb-4">Empresa</h3>
+        <ul class="space-y-2 text-sm">
+          <li><a href="sobre" class="hover:text-white transition">Sobre Nós</a></li>
+          <li><a href="equipe" class="hover:text-white transition">Equipe</a></li>
+          <li><a href="avaliacao.html" class="hover:text-white transition">Valuation</a></li>
+          <li><a href="privacidade.html" class="hover:text-white transition">Privacidade</a></li>
+          <li><a href="index.html#contato" class="hover:text-white transition">Contato</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400 text-xs space-y-2 px-4">
+      <p>© 2026 Emuná Capital. Todos os direitos reservados.</p>
+      <p class="text-gray-500 max-w-2xl mx-auto text-xs">Instrumento educacional nesta página, sem caráter de recomendação de investimento.</p>
+    </div>
+  </footer>
+
+  <script>
+(function () {
+  try {
+    if (typeof Chart !== 'undefined' && typeof ChartDataLabels !== 'undefined' && Chart.register) {
+      Chart.register(ChartDataLabels);
+    }
+  } catch (eReg) { /* plugin opcional */ }
+
+  const STEPS = 6;
+  const DATA_URL = 'data/avaliacao-setores.json';
+  /** Mesmo endpoint do formulário de contato da home ([index.html](index.html)). */
+  const FORMSPREE_AVALIACAO = 'https://formspree.io/f/xldbygyl';
+
+  let currentStep = 0;
+  let sectorData = null;
+  let selectedSectorId = null;
+  let revenueBand = null;
+  let chartMultiples = null;
+  let chartMultAdj = null;
+  let chartMargin = null;
+
+  const track = document.getElementById('slide-track');
+  const progressDots = document.getElementById('progress-dots');
+  const stepLabel = document.getElementById('step-label');
+  const wizardRoot = document.getElementById('wizard-root');
+  const resultsRoot = document.getElementById('results-root');
+
+  function formatBRL(n) {
+    if (n == null || isNaN(n)) return '—';
+    return n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
+  }
+
+  function digitsOnly(s) {
+    return String(s || '').replace(/\D/g, '');
+  }
+
+  function formatIntegerBRFromDigits(digits) {
+    if (!digits) return '';
+    var n = digits.replace(/^0+/, '');
+    if (!n) n = '0';
+    return n.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  }
+
+  function bindMoneyInput(el, maxDigits) {
+    maxDigits = maxDigits || 15;
+    el.addEventListener('input', function () {
+      var d = digitsOnly(el.value);
+      if (d.length > maxDigits) d = d.slice(0, maxDigits);
+      el.value = formatIntegerBRFromDigits(d);
+    });
+  }
+
+  function parseBRNumber(str) {
+    if (str == null || String(str).trim() === '') return NaN;
+    var s = String(str).trim();
+    if (s.indexOf(',') >= 0) {
+      var parts = s.split(',');
+      var intPart = parts[0].replace(/\./g, '');
+      var decPart = parts.length > 1 ? parts.slice(1).join('') : '';
+      return parseFloat(intPart + (decPart ? '.' + decPart : ''));
+    }
+    var t = s.replace(/\./g, '').replace(/[^\d.-]/g, '');
+    return parseFloat(t);
+  }
+
+  function maskCNPJ(input) {
+    var d = input.value.replace(/\D/g, '').slice(0, 14);
+    if (d.length <= 2) { input.value = d; return; }
+    if (d.length <= 5) { input.value = d.slice(0, 2) + '.' + d.slice(2); return; }
+    if (d.length <= 8) { input.value = d.slice(0, 2) + '.' + d.slice(2, 5) + '.' + d.slice(5); return; }
+    if (d.length <= 12) { input.value = d.slice(0, 2) + '.' + d.slice(2, 5) + '.' + d.slice(5, 8) + '/' + d.slice(8); return; }
+    input.value = d.slice(0, 2) + '.' + d.slice(2, 5) + '.' + d.slice(5, 8) + '/' + d.slice(8, 12) + '-' + d.slice(12, 14);
+  }
+
+  document.getElementById('f-cnpj').addEventListener('input', function () { maskCNPJ(this); });
+  bindMoneyInput(document.getElementById('f-receita'));
+  bindMoneyInput(document.getElementById('f-ebitda'));
+
+  function setStep(n) {
+    currentStep = Math.max(0, Math.min(STEPS - 1, n));
+    track.style.transform = 'translateX(' + (-currentStep * 100) + '%)';
+    progressDots.querySelectorAll('.progress-dot').forEach(function (d, i) {
+      d.classList.toggle('on', i === currentStep);
+    });
+    track.querySelectorAll('.slide').forEach(function (slide, i) {
+      slide.classList.toggle('is-active', i === currentStep);
+    });
+    var labels = ['Introdução', 'Identificação', 'Setor', 'Receita', 'Rentabilidade', 'Revisão'];
+    stepLabel.textContent = (currentStep + 1) + ' / ' + STEPS + ' · ' + labels[currentStep];
+  }
+
+  function initDots() {
+    progressDots.innerHTML = '';
+    for (var i = 0; i < STEPS; i++) {
+      var d = document.createElement('span');
+      d.className = 'progress-dot' + (i === 0 ? ' on' : '');
+      progressDots.appendChild(d);
+    }
+  }
+
+  function getSector() {
+    if (!sectorData || !selectedSectorId) return null;
+    for (var i = 0; i < sectorData.sectors.length; i++) {
+      if (sectorData.sectors[i].id === selectedSectorId) return sectorData.sectors[i];
+    }
+    return null;
+  }
+
+  function renderSectors() {
+    var grid = document.getElementById('sector-grid');
+    grid.innerHTML = '';
+    sectorData.sectors.forEach(function (s) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'sector-card text-left w-full text-sm text-[#0e2344]';
+      b.dataset.id = s.id;
+      b.innerHTML = '<span class="font-semibold">' + s.label + '</span><span class="block text-[0.65rem] text-[#0b1423]/45 mt-0.5">Múltiplo mercado (ref.) ' + s.evEbitdaMultiple + 'x</span>';
+      b.addEventListener('click', function () {
+        grid.querySelectorAll('.sector-card').forEach(function (x) { x.classList.remove('selected'); });
+        b.classList.add('selected');
+        selectedSectorId = s.id;
+      });
+      grid.appendChild(b);
+    });
+  }
+
+  var bands = [
+    { id: 'a', label: 'Até R$ 5 mi' },
+    { id: 'b', label: 'R$ 5 mi a 30 mi' },
+    { id: 'c', label: 'R$ 30 mi a 100 mi' },
+    { id: 'd', label: 'R$ 100 mi a 500 mi' },
+    { id: 'e', label: 'Acima de R$ 500 mi' }
+  ];
+
+  function renderBands() {
+    var el = document.getElementById('revenue-bands');
+    el.innerHTML = '';
+    bands.forEach(function (b) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'chip';
+      btn.textContent = b.label;
+      btn.dataset.id = b.id;
+      btn.addEventListener('click', function () {
+        el.querySelectorAll('.chip').forEach(function (c) { c.classList.remove('active'); });
+        btn.classList.add('active');
+        revenueBand = b.id;
+      });
+      el.appendChild(btn);
+    });
+  }
+
+  function finPath() {
+    var r = document.querySelector('input[name="finpath"]:checked');
+    return r ? r.value : 'health';
+  }
+
+  function updateFinBlocks() {
+    var p = finPath();
+    document.getElementById('block-ebitda').classList.toggle('hidden', p !== 'ebitda');
+    document.getElementById('block-margin').classList.toggle('hidden', p !== 'margin');
+    document.getElementById('block-health').classList.toggle('hidden', p !== 'health');
+  }
+
+  document.querySelectorAll('input[name="finpath"]').forEach(function (r) {
+    r.addEventListener('change', updateFinBlocks);
+  });
+
+  function setConsentError(on) {
+    var block = document.getElementById('consent-block');
+    var cb = document.getElementById('consent-lgpd');
+    if (!block || !cb) return;
+    block.classList.toggle('consent-invalid', !!on);
+    cb.setAttribute('aria-invalid', on ? 'true' : 'false');
+    if (on) block.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  document.getElementById('consent-lgpd').addEventListener('change', function () {
+    if (this.checked) setConsentError(false);
+  });
+
+  function validateStep() {
+    if (currentStep === 0) {
+      if (!document.getElementById('consent-lgpd').checked) {
+        setConsentError(true);
+        return false;
+      }
+      setConsentError(false);
+      return true;
+    }
+    if (currentStep === 1) {
+      var em = document.getElementById('f-empresa').value.trim();
+      var cnpj = document.getElementById('f-cnpj').value.replace(/\D/g, '');
+      var eml = document.getElementById('f-email').value.trim();
+      var nm = document.getElementById('f-nome').value.trim();
+      if (!em || cnpj.length !== 14 || !eml || !nm) {
+        alert('Preencha razão social, CNPJ válido (14 dígitos), e-mail e nome do contato.');
+        return false;
+      }
+      return true;
+    }
+    if (currentStep === 2) {
+      if (!sectorData) {
+        alert('Aguarde o carregamento dos setores.');
+        return false;
+      }
+      if (!selectedSectorId) {
+        alert('Selecione um setor.');
+        return false;
+      }
+      return true;
+    }
+    if (currentStep === 3) {
+      if (!revenueBand) {
+        alert('Selecione a faixa de faturamento.');
+        return false;
+      }
+      var rv = parseBRNumber(document.getElementById('f-receita').value);
+      if (!isFinite(rv) || rv <= 0) {
+        alert('Informe um valor aproximado de receita válido.');
+        return false;
+      }
+      return true;
+    }
+    if (currentStep === 4) {
+      var path = finPath();
+      if (path === 'ebitda') {
+        var eb = parseBRNumber(document.getElementById('f-ebitda').value);
+        if (!isFinite(eb) || eb <= 0) {
+          alert('Informe um EBITDA aproximado válido.');
+          return false;
+        }
+      } else if (path === 'margin') {
+        var m = parseFloat(document.getElementById('f-margin').value);
+        if (!isFinite(m) || m <= 0 || m > 80) {
+          alert('Informe uma margem EBITDA entre 0 e 80%.');
+          return false;
+        }
+      }
+      return true;
+    }
+    return true;
+  }
+
+  function healthScore() {
+    var g = parseInt(document.getElementById('hq-growth').value, 10) || 0;
+    var l = parseInt(document.getElementById('hq-lev').value, 10) || 0;
+    var v = parseInt(document.getElementById('hq-gov').value, 10) || 0;
+    return g + l + v;
+  }
+
+  /** Fator por alavancagem declarada (dívida vs. caixa): stress reduz o múltiplo aplicado. */
+  function leverageFactor() {
+    var l = parseInt(document.getElementById('hq-lev').value, 10);
+    if (l === 0) return 0.88;
+    if (l === 1) return 1;
+    return 1.04;
+  }
+
+  /** Ajuste fino por crescimento e governança (alavancagem já entra em leverageFactor). */
+  function healthFactorGovGrowth() {
+    var g = parseInt(document.getElementById('hq-growth').value, 10) || 0;
+    var v = parseInt(document.getElementById('hq-gov').value, 10) || 0;
+    var s = g + v;
+    var delta = (s - 2) * 0.025;
+    return Math.min(1.06, Math.max(0.92, 1 + delta));
+  }
+
+  /**
+   * Margem utilizada na simulação (%) vs referência típica do setor (%).
+   * Abaixo do benchmark reduz o múltiplo; acima concede prêmio moderado.
+   * Usa sempre a margem implícita (receita + EBITDA), seja vinda de perguntas, margem informada ou EBITDA informado.
+   */
+  function marginVsBenchmarkFactor(margemPct, refPct) {
+    var ref = refPct > 0 ? refPct : 14;
+    var m = Number(margemPct);
+    if (!isFinite(m) || ref <= 0) return 1;
+    var spread = (m - ref) / ref;
+    var f = 1 + spread * 0.55;
+    return Math.min(1.08, Math.max(0.8, f));
+  }
+
+  function computeAdjustedMultiple(multBase, margemPct, refPct) {
+    return multBase
+      * leverageFactor()
+      * healthFactorGovGrowth()
+      * marginVsBenchmarkFactor(margemPct, refPct);
+  }
+
+  function destroyAllCharts() {
+    [chartMultiples, chartMultAdj, chartMargin].forEach(function (c) {
+      if (c) c.destroy();
+    });
+    chartMultiples = chartMultAdj = chartMargin = null;
+  }
+
+  function impliedMarginFromHealth(score) {
+    if (score >= 5) return 0.24;
+    if (score >= 4) return 0.18;
+    if (score >= 3) return 0.14;
+    if (score >= 2) return 0.10;
+    return 0.07;
+  }
+
+  function computeEbitda(revenue) {
+    var path = finPath();
+    if (path === 'ebitda') return parseBRNumber(document.getElementById('f-ebitda').value);
+    if (path === 'margin') return revenue * (parseFloat(document.getElementById('f-margin').value) / 100);
+    var sec = getSector();
+    var base = sec ? sec.marginRef : 0.14;
+    var adj = impliedMarginFromHealth(healthScore());
+    return revenue * Math.min(0.45, Math.max(0.04, (base + adj) / 2));
+  }
+
+  function buildReview() {
+    var sec = getSector();
+    var list = document.getElementById('review-list');
+    var rows = [
+      { label: 'Identificação', step: 1, html: document.getElementById('f-empresa').value + '<br><span class="text-xs opacity-70">' + document.getElementById('f-email').value + '</span>' },
+      { label: 'Setor', step: 2, html: sec ? sec.label : '—' },
+      { label: 'Receita', step: 3, html: (bands.find(function (b) { return b.id === revenueBand; }) || {}).label + ' · ' + formatBRL(parseBRNumber(document.getElementById('f-receita').value)) },
+      { label: 'Rentabilidade', step: 4, html: (function () {
+        var p = finPath();
+        if (p === 'ebitda') return 'EBITDA informado: ' + formatBRL(parseBRNumber(document.getElementById('f-ebitda').value));
+        if (p === 'margin') return 'Margem EBITDA: ' + document.getElementById('f-margin').value + '%';
+        return 'Perfil por perguntas (pontuação composta)';
+      })() }
+    ];
+    list.innerHTML = rows.map(function (r) {
+      return '<div class="review-row"><div><div class="text-[0.65rem] uppercase tracking-wider text-[#0e2344]/45 font-semibold">' + r.label + '</div><div class="text-[#0b1423]/88 mt-0.5">' + r.html + '</div></div><button type="button" class="text-xs font-semibold text-[#123a6d] shrink-0 underline decoration-[#c9a961]/50" data-edit="' + r.step + '">Editar</button></div>';
+    }).join('');
+    list.querySelectorAll('[data-edit]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        setStep(parseInt(btn.getAttribute('data-edit'), 10));
+      });
+    });
+  }
+
+  var chartFont = { family: 'Montserrat', size: 11 };
+
+  /** Eixo % sem artefatos de float (ex.: 27,6% em vez de 27.599999999999998%). */
+  function formatPctAxisTick(v) {
+    var n = typeof v === 'number' ? v : parseFloat(String(v).replace(',', '.'));
+    if (!isFinite(n)) return '';
+    n = Math.round(n * 10) / 10;
+    return n.toFixed(1).replace('.', ',') + '%';
+  }
+
+  function formatMultAxisTick(v) {
+    var n = Number(v);
+    if (!isFinite(n)) return '';
+    return n.toFixed(1) + 'x';
+  }
+
+  function pluginsLabelsTop() {
+    if (typeof ChartDataLabels === 'undefined') return {};
+    return {
+      datalabels: {
+        anchor: 'end',
+        align: 'top',
+        offset: 2,
+        color: '#0e2344',
+        font: { weight: '600', size: 11, family: 'Montserrat' },
+        formatter: function (v) { return typeof v === 'number' ? v.toFixed(1) + 'x' : ''; }
+      }
+    };
+  }
+
+  function pluginsLabelsEnd(formatter) {
+    if (typeof ChartDataLabels === 'undefined') return {};
+    return {
+      datalabels: {
+        anchor: 'end',
+        align: 'end',
+        color: '#0e2344',
+        font: { weight: '600', size: 11, family: 'Montserrat' },
+        formatter: formatter
+      }
+    };
+  }
+
+  function drawChartMultiples(multipleBase, userSectorId) {
+    var peerIds = sectorData.chartPeerIds.slice();
+    var labels = [];
+    var values = [];
+    var bg = [];
+    var border = [];
+    peerIds.forEach(function (id) {
+      var s = sectorData.sectors.find(function (x) { return x.id === id; });
+      if (!s) return;
+      labels.push(s.label.split(' ')[0]);
+      values.push(s.evEbitdaMultiple);
+      var isUser = id === userSectorId;
+      bg.push(isUser ? 'rgba(18, 58, 109, 0.88)' : 'rgba(14, 35, 68, 0.22)');
+      border.push(isUser ? '#0e2344' : 'rgba(14, 35, 68, 0.28)');
+    });
+    if (peerIds.indexOf(userSectorId) === -1) {
+      var u = sectorData.sectors.find(function (x) { return x.id === userSectorId; });
+      if (u) {
+        labels.push('Seu setor');
+        values.push(multipleBase);
+        bg.push('rgba(201, 169, 97, 0.8)');
+        border.push('#8a7036');
+      }
+    }
+    var ctx = document.getElementById('chart-multiples');
+    if (chartMultiples) chartMultiples.destroy();
+    chartMultiples = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Múltiplo (x)',
+          data: values,
+          backgroundColor: bg,
+          borderColor: border,
+          borderWidth: 1,
+          borderRadius: 8,
+          maxBarThickness: 48
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        layout: { padding: { top: 28 } },
+        plugins: Object.assign({
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: function (c) { return 'Múltiplo: ' + c.parsed.y.toFixed(1) + 'x'; }
+            }
+          }
+        }, pluginsLabelsTop()),
+        scales: {
+          y: {
+            beginAtZero: true,
+            suggestedMax: (function () {
+              var m = Math.max.apply(null, values);
+              return m * 1.18;
+            })(),
+            grid: { color: 'rgba(14,35,68,0.07)' },
+            ticks: {
+              font: chartFont,
+              maxTicksLimit: 8,
+              callback: function (v) { return formatMultAxisTick(v); }
+            }
+          },
+          x: {
+            grid: { display: false },
+            ticks: { font: { family: 'Montserrat', size: 10 }, maxRotation: 40, minRotation: 0 }
+          }
+        }
+      }
+    });
+  }
+
+  function drawChartMultipleAdj(multBase, multAdj) {
+    var ctx = document.getElementById('chart-mult-adj');
+    if (chartMultAdj) chartMultAdj.destroy();
+    chartMultAdj = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Referência do setor', 'Após ajuste de perfil'],
+        datasets: [{
+          data: [multBase, multAdj],
+          backgroundColor: ['rgba(14, 35, 68, 0.25)', 'rgba(18, 58, 109, 0.85)'],
+          borderColor: ['rgba(14,35,68,0.35)', '#0e2344'],
+          borderWidth: 1,
+          borderRadius: 6,
+          barThickness: 22
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        layout: { padding: { right: 36 } },
+        plugins: Object.assign({
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: function (c) { return c.parsed.x.toFixed(1) + 'x'; }
+            }
+          }
+        }, pluginsLabelsEnd(function (v) { return v.toFixed(1) + 'x'; })),
+        scales: {
+          x: {
+            beginAtZero: true,
+            grid: { color: 'rgba(14,35,68,0.07)' },
+            ticks: {
+              font: chartFont,
+              maxTicksLimit: 8,
+              callback: function (v) { return formatMultAxisTick(v); }
+            }
+          },
+          y: { grid: { display: false }, ticks: { font: { family: 'Montserrat', size: 10 } } }
+        }
+      }
+    });
+  }
+
+  function drawChartMargin(margemPct, refPct) {
+    var rawMax = Math.max(margemPct, refPct, 1) * 1.15;
+    var maxV = Math.ceil(rawMax * 10) / 10;
+    var ctx = document.getElementById('chart-margin');
+    if (chartMargin) chartMargin.destroy();
+    chartMargin = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Sua margem (simulação)', 'Referência típica do setor'],
+        datasets: [{
+          data: [margemPct, refPct],
+          backgroundColor: ['rgba(201, 169, 97, 0.75)', 'rgba(14, 35, 68, 0.22)'],
+          borderColor: ['#8a7036', 'rgba(14,35,68,0.3)'],
+          borderWidth: 1,
+          borderRadius: 6,
+          barThickness: 22
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        layout: { padding: { right: 40 } },
+        plugins: Object.assign({
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: function (c) { return c.parsed.x.toFixed(1) + '%'; }
+            }
+          }
+        }, pluginsLabelsEnd(function (v) { return v.toFixed(1).replace('.', ',') + '%'; })),
+        scales: {
+          x: {
+            beginAtZero: true,
+            max: maxV,
+            grid: { color: 'rgba(14,35,68,0.07)' },
+            ticks: {
+              font: chartFont,
+              stepSize: maxV <= 40 ? 5 : 10,
+              maxTicksLimit: 12,
+              callback: function (v) { return formatPctAxisTick(v); }
+            }
+          },
+          y: { grid: { display: false }, ticks: { font: { family: 'Montserrat', size: 9 } } }
+        }
+      }
+    });
+  }
+
+  function describeFinPath(p) {
+    if (p === 'ebitda') return 'EBITDA informado diretamente';
+    if (p === 'margin') return 'Margem EBITDA informada (%)';
+    return 'Perfil por perguntas (crescimento, alavancagem, governança)';
+  }
+
+  function healthAnswersText() {
+    var g = document.getElementById('hq-growth');
+    var l = document.getElementById('hq-lev');
+    var v = document.getElementById('hq-gov');
+    if (!g || !l || !v) return '—';
+    return (
+      'Crescimento (24m): ' + (g.options[g.selectedIndex] && g.options[g.selectedIndex].text) + '\n' +
+      'Alavancagem: ' + (l.options[l.selectedIndex] && l.options[l.selectedIndex].text) + '\n' +
+      'Governança/reporting: ' + (v.options[v.selectedIndex] && v.options[v.selectedIndex].text)
+    );
+  }
+
+  /**
+   * Mesma convenção do contato na home: name, email, empresa, assunto, message (+ _subject).
+   * O corpo (message) concentra identificação + fluxo + resultado da simulação.
+   */
+  function submitLead(ctx) {
+    var status = document.getElementById('lead-status');
+    status.textContent = '';
+    if (!FORMSPREE_AVALIACAO) {
+      status.textContent = 'Envio não configurado.';
+      return;
+    }
+    var faixaLabel = ((bands.find(function (b) { return b.id === ctx.faixa_receita; }) || {}).label) || String(ctx.faixa_receita || '—');
+    var msg = [
+      'Envio automático após conclusão da Avaliação indicativa no site.',
+      '',
+      '— Identificação —',
+      'Razão social: ' + ctx.empresa,
+      'CNPJ: ' + ctx.cnpj,
+      'Nome do contato: ' + ctx.contato,
+      'E-mail: ' + ctx.email,
+      '',
+      '— Parâmetros da simulação —',
+      'Setor: ' + ctx.setor,
+      'Faixa de faturamento: ' + faixaLabel,
+      'Receita aproximada: ' + ctx.receita_fmt,
+      'Forma de informar rentabilidade: ' + describeFinPath(ctx.path_fin),
+      ''
+    ];
+    if (ctx.path_fin === 'ebitda') {
+      msg.push('EBITDA informado: ' + ctx.ebitda_fmt);
+    } else if (ctx.path_fin === 'margin') {
+      msg.push('Margem EBITDA informada: ' + ctx.margem_informada_pct + '%');
+    } else {
+      msg.push('Respostas de perfil operacional:');
+      msg.push(healthAnswersText());
+    }
+    msg.push(
+      '',
+      '— Resultado indicativo —',
+      'EBITDA utilizado na simulação: ' + ctx.ebitda_fmt,
+      'Margem implícita: ' + ctx.margem_pct + '% (referência setor: ' + ctx.margem_ref_pct + '%)',
+      'Múltiplo referência (setor): ' + ctx.mult_setor + 'x',
+      'Múltiplo ajustado (perfil): ' + ctx.mult_ajustado + 'x',
+      'Fator margem vs. setor: ' + ctx.fator_margem_vs_setor,
+      'Faixa de valor indicativa: entre ' + ctx.ev_baixo_fmt + ' e ' + ctx.ev_alto_fmt + ' (±20% simplificado).',
+      '',
+      '— Técnico —',
+      'IP (estimado): ' + (ctx.client_ip || '—'),
+      'User-Agent: ' + (ctx.user_agent || '—').slice(0, 220)
+    );
+    var message = msg.join('\n');
+
+    var fd = new FormData();
+    fd.append('name', ctx.contato);
+    fd.append('email', ctx.email);
+    fd.append('empresa', ctx.empresa);
+    fd.append('assunto', 'Avaliação indicativa — Emuná Capital');
+    fd.append('message', message);
+    fd.append('_subject', 'Avaliação indicativa — ' + ctx.empresa);
+
+    fetch(FORMSPREE_AVALIACAO, { method: 'POST', body: fd, headers: { Accept: 'application/json' } })
+      .then(function (r) {
+        status.textContent = r.ok
+          ? 'Enviamos um resumo para a equipe (mesmo canal do formulário de contato). Obrigado.'
+          : 'Não foi possível confirmar o envio; utilize o contato na página inicial.';
+      })
+      .catch(function () {
+        status.textContent = 'Falha de rede no envio; seus resultados permanecem visíveis acima.';
+      });
+  }
+
+  document.getElementById('btn-generate').addEventListener('click', function () {
+    if (!validateStep()) return;
+    var sec = getSector();
+    var revenue = parseBRNumber(document.getElementById('f-receita').value);
+    var ebitda = computeEbitda(revenue);
+    var multBase = sec.evEbitdaMultiple;
+    var margemPct = revenue > 0 ? (ebitda / revenue) * 100 : 0;
+    var refPct = (sec.marginRef || 0.14) * 100;
+    var multAdj = computeAdjustedMultiple(multBase, margemPct, refPct);
+    var ev = ebitda * multAdj;
+    var low = ev * 0.8;
+    var high = ev * 1.2;
+    document.getElementById('res-band').textContent = 'Entre ' + formatBRL(low) + ' e ' + formatBRL(high) + ' (faixa indicativa).';
+    document.getElementById('res-mult').textContent = multAdj.toFixed(1) + 'x (ajustado ao perfil)';
+    document.getElementById('res-mult-note').textContent = 'Referência bruta do setor: ' + multBase.toFixed(1) + 'x · ' + (sec.label || '');
+    document.getElementById('res-ebitda').textContent = formatBRL(ebitda);
+
+    destroyAllCharts();
+    wizardRoot.classList.add('hidden');
+    resultsRoot.classList.add('visible');
+    drawChartMultiples(multBase, selectedSectorId);
+    drawChartMultipleAdj(multBase, multAdj);
+    drawChartMargin(margemPct, refPct);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    var path = finPath();
+    var margemInformada = path === 'margin' ? String(document.getElementById('f-margin').value || '') : '';
+    submitLead({
+      empresa: document.getElementById('f-empresa').value.trim(),
+      cnpj: document.getElementById('f-cnpj').value.trim(),
+      email: document.getElementById('f-email').value.trim(),
+      contato: document.getElementById('f-nome').value.trim(),
+      setor: sec.label,
+      faixa_receita: revenueBand,
+      receita_fmt: formatBRL(revenue),
+      path_fin: path,
+      ebitda_fmt: formatBRL(ebitda),
+      margem_informada_pct: margemInformada,
+      margem_pct: margemPct.toFixed(1).replace('.', ','),
+      margem_ref_pct: refPct.toFixed(1).replace('.', ','),
+      mult_setor: multBase.toFixed(1),
+      mult_ajustado: multAdj.toFixed(2),
+      fator_margem_vs_setor: marginVsBenchmarkFactor(margemPct, refPct).toFixed(3).replace('.', ','),
+      ev_baixo_fmt: formatBRL(low),
+      ev_alto_fmt: formatBRL(high),
+      client_ip: document.getElementById('f-ip').value,
+      user_agent: document.getElementById('f-ua').value
+    });
+  });
+
+  document.getElementById('btn-restart').addEventListener('click', function () {
+    destroyAllCharts();
+    resultsRoot.classList.remove('visible');
+    wizardRoot.classList.remove('hidden');
+    setConsentError(false);
+    setStep(0);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  document.querySelectorAll('[data-next]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      if (!validateStep()) return;
+      if (currentStep === 4) buildReview();
+      setStep(currentStep + 1);
+    });
+  });
+  document.querySelectorAll('[data-prev]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      setStep(currentStep - 1);
+    });
+  });
+
+  document.getElementById('mobile-menu-button').addEventListener('click', function () {
+    document.getElementById('mobile-menu').classList.toggle('hidden');
+  });
+
+  initDots();
+  setStep(0);
+
+  fetch(DATA_URL).then(function (r) { return r.json(); }).then(function (data) {
+    sectorData = data;
+    renderSectors();
+    renderBands();
+    updateFinBlocks();
+  }).catch(function () {
+    alert('Não foi possível carregar os dados setoriais. Verifique se o arquivo data/avaliacao-setores.json está publicado.');
+  });
+
+  try {
+    document.getElementById('f-ua').value = navigator.userAgent || '';
+  } catch (e) {}
+
+  fetch('https://api.ipify.org?format=json')
+    .then(function (r) { return r.json(); })
+    .then(function (j) {
+      document.getElementById('f-ip').value = j.ip || '';
+    })
+    .catch(function () {});
+})();
+  </script>
+</body>
+</html>

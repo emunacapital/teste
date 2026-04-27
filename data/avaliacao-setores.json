@@ -1,0 +1,24 @@
+{
+  "meta": {
+    "nota": "Múltiplos EV/EBITDA e margens de referência são ilustrativos, agregados de mercado para fins educacionais. Não substituem laudo, fairness opinion ou trabalho de valuation.",
+    "versao": "1.0"
+  },
+  "chartPeerIds": ["consumo", "saude", "energia", "industria", "tecnologia"],
+  "sectors": [
+    { "id": "tecnologia", "label": "Tecnologia & software", "evEbitdaMultiple": 14.2, "marginRef": 0.24 },
+    { "id": "saude", "label": "Saúde & life sciences", "evEbitdaMultiple": 12.8, "marginRef": 0.2 },
+    { "id": "energia", "label": "Energia & infraestrutura", "evEbitdaMultiple": 9.5, "marginRef": 0.28 },
+    { "id": "consumo", "label": "Consumo & varejo", "evEbitdaMultiple": 10.5, "marginRef": 0.12 },
+    { "id": "industria", "label": "Indústria & bens", "evEbitdaMultiple": 8.6, "marginRef": 0.14 },
+    { "id": "agronegocio", "label": "Agronegócio", "evEbitdaMultiple": 8.9, "marginRef": 0.18 },
+    { "id": "servicos_financeiros", "label": "Serviços financeiros", "evEbitdaMultiple": 11.2, "marginRef": 0.35 },
+    { "id": "logistica", "label": "Logística & mobilidade", "evEbitdaMultiple": 7.8, "marginRef": 0.11 },
+    { "id": "educacao", "label": "Educação", "evEbitdaMultiple": 9.1, "marginRef": 0.16 },
+    { "id": "construcao", "label": "Construção civil", "evEbitdaMultiple": 6.9, "marginRef": 0.09 },
+    { "id": "midia", "label": "Mídia & telecom", "evEbitdaMultiple": 10.1, "marginRef": 0.19 },
+    { "id": "b2b", "label": "B2B & serviços corporativos", "evEbitdaMultiple": 9.4, "marginRef": 0.15 },
+    { "id": "quimica", "label": "Química & materiais", "evEbitdaMultiple": 8.1, "marginRef": 0.13 },
+    { "id": "varejo_alimentar", "label": "Varejo alimentar", "evEbitdaMultiple": 9.8, "marginRef": 0.1 },
+    { "id": "outros", "label": "Outros setores", "evEbitdaMultiple": 8.5, "marginRef": 0.14 }
+  ]
+}
